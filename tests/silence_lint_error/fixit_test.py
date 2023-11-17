@@ -186,4 +186,4 @@ if True:
     assert captured.err == """\
 -> finding errors with fixit
 ERROR: errors found for multiple rules: ['CollapseIsinstanceChecks', 'NoStaticIfCondition']
-"""
+"""  # noqa: B950
