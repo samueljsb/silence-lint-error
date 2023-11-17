@@ -1,3 +1,5 @@
 covdefaults
 coverage
+fixit
+flake8
 pytest

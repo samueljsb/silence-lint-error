@@ -43,6 +43,7 @@ repos:
     rev: v1.7.0
     hooks:
     -   id: mypy
+        additional_dependencies: [attrs]
 -   repo: https://github.com/pre-commit/pygrep-hooks
     rev: v1.10.0
     hooks:
