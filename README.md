@@ -5,7 +5,7 @@ Silent linting errors by adding `ignore` or `fixme` comments.
 This tool currently works with:
 
 - [`fixit`](https://github.com/Instagram/Fixit)
-- [`flake8`](https://github.com/PyCQA/flake8)
+- [`flake8`](https://github.com/PyCQA/flake8) (silence only)
 
 ## Usage
 
@@ -33,6 +33,18 @@ To add `noqa: F401` comments to ignore the `F401` rule in `flake8`, run:
 
 ```shell
 silence-lint-error flake8 F401 path/to/files/ path/to/more/files/
+```
+
+### fix silenced errors
+
+If there is an auto-fix for a linting error, you can remove the `ignore` or
+`fixme` comments and apply the auto-fix.
+
+For example, to remove all `lint-fixme: CollapseIsinstanceChecks` comments and
+apply the auto-fix for that rule, run:
+
+```shell
+fix-silenced-error fixit fixit.rules:CollapseIsinstanceChecks path/to/files/ path/to/more/files/
 ```
 
 ## Rationale
