@@ -30,6 +30,11 @@ class Violation(NamedTuple):
     lineno: int
 
 
+@attrs.frozen
+class ErrorRunningTool(Exception):
+    proc: subprocess.CompletedProcess[str]
+
+
 class Linter(Protocol):
     name: str
 
@@ -62,6 +67,9 @@ class Fixit:
             capture_output=True,
             text=True,
         )
+
+        if proc.returncode and proc.stderr.endswith('No module named fixit\n'):
+            raise ErrorRunningTool(proc)
 
         # extract filenames and line numbers
         results: dict[str, list[Violation]] = defaultdict(list)
@@ -123,6 +131,9 @@ class Flake8:
             text=True,
         )
 
+        if proc.returncode and proc.stderr.endswith('No module named flake8\n'):
+            raise ErrorRunningTool(proc)
+
         # extract filenames and line numbers
         results: dict[FileName, list[Violation]] = defaultdict(list)
         for line in proc.stdout.splitlines():
@@ -155,6 +166,9 @@ class Ruff:
             capture_output=True,
             text=True,
         )
+
+        if proc.returncode and proc.stderr.endswith('No module named ruff\n'):
+            raise ErrorRunningTool(proc)
 
         # extract filenames and line numbers
         all_violations = json.loads(proc.stdout)
@@ -260,6 +274,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     print(f'-> finding errors with {linter.name}', file=sys.stderr)
     try:
         violations = _find_violations(linter, rule_name, file_names)
+    except ErrorRunningTool as e:
+        print(f'ERROR: {e.proc.stderr.strip()}', file=sys.stderr)
+        return e.proc.returncode
     except NoViolationsFound:
         print('no errors found', file=sys.stderr)
         return 0
