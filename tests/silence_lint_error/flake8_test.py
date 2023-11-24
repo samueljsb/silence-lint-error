@@ -4,53 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from silence_lint_error.silence_lint_error import Flake8
 from silence_lint_error.silence_lint_error import main
-from silence_lint_error.silence_lint_error import Violation
-
-
-class TestFlake8:
-    def test_add_comments(self):
-        src = """\
-# a single-line statement on line 2
-foo = 'bar'
-
-# a function on line 5
-def baz(
-    a: int,
-    b: int,
-) -> str:
-    ...
-
-# a multi-line string on line 12
-s = '''
-hello there
-'''
-"""
-
-        assert Flake8().silence_violations(
-            src,
-            [
-                Violation('ABC123', 2),
-                Violation('ABC123', 5),
-                Violation('ABC123', 12),
-            ],
-        ) == """\
-# a single-line statement on line 2
-foo = 'bar'  # noqa: ABC123
-
-# a function on line 5
-def baz(  # noqa: ABC123
-    a: int,
-    b: int,
-) -> str:
-    ...
-
-# a multi-line string on line 12
-s = '''
-hello there
-'''  # noqa: ABC123
-"""
 
 
 def test_main(tmp_path: Path, capsys: pytest.CaptureFixture[str]):

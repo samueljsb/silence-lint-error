@@ -12,7 +12,6 @@ from typing import Protocol
 from typing import TYPE_CHECKING
 
 import attrs
-import tokenize_rt
 
 from . import noqa
 
@@ -137,27 +136,7 @@ class Flake8:
     ) -> str:
         [rule_name] = {violation.rule_name for violation in violations}
         linenos_to_silence = {violation.lineno for violation in violations}
-
-        tokens = tokenize_rt.src_to_tokens(src)
-
-        for idx, token in tokenize_rt.reversed_enumerate(tokens):
-            if token.line not in linenos_to_silence:
-                continue
-            if not token.src.strip():
-                continue
-
-            if token.name == 'COMMENT':
-                new_comment = noqa.add_code_to_comment(token.src, rule_name)
-                tokens[idx] = tokens[idx]._replace(src=new_comment)
-            else:
-                tokens.insert(
-                    idx+1, tokenize_rt.Token('COMMENT', f'# noqa: {rule_name}'),
-                )
-                tokens.insert(idx+1, tokenize_rt.Token('UNIMPORTANT_WS', '  '))
-
-            linenos_to_silence.remove(token.line)
-
-        return tokenize_rt.tokens_to_src(tokens)
+        return noqa.add_noqa_comments(src, linenos_to_silence, rule_name)
 
 
 class Ruff:
@@ -195,27 +174,7 @@ class Ruff:
     ) -> str:
         [rule_name] = {violation.rule_name for violation in violations}
         linenos_to_silence = {violation.lineno for violation in violations}
-
-        tokens = tokenize_rt.src_to_tokens(src)
-
-        for idx, token in tokenize_rt.reversed_enumerate(tokens):
-            if token.line not in linenos_to_silence:
-                continue
-            if not token.src.strip():
-                continue
-
-            if token.name == 'COMMENT':
-                new_comment = noqa.add_code_to_comment(token.src, rule_name)
-                tokens[idx] = tokens[idx]._replace(src=new_comment)
-            else:
-                tokens.insert(
-                    idx+1, tokenize_rt.Token('COMMENT', f'# noqa: {rule_name}'),
-                )
-                tokens.insert(idx+1, tokenize_rt.Token('UNIMPORTANT_WS', '  '))
-
-            linenos_to_silence.remove(token.line)
-
-        return tokenize_rt.tokens_to_src(tokens)
+        return noqa.add_noqa_comments(src, linenos_to_silence, rule_name)
 
 
 LINTERS: dict[str, type[Linter]] = {
