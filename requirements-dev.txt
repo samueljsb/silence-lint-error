@@ -3,3 +3,4 @@ coverage
 fixit
 flake8
 pytest
+ruff

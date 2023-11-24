@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import subprocess
 import sys
@@ -11,7 +12,8 @@ from typing import Protocol
 from typing import TYPE_CHECKING
 
 import attrs
-import tokenize_rt
+
+from . import noqa
 
 if TYPE_CHECKING:
     from typing import TypeAlias
@@ -134,40 +136,51 @@ class Flake8:
     ) -> str:
         [rule_name] = {violation.rule_name for violation in violations}
         linenos_to_silence = {violation.lineno for violation in violations}
+        return noqa.add_noqa_comments(src, linenos_to_silence, rule_name)
 
-        tokens = tokenize_rt.src_to_tokens(src)
 
-        for idx, token in tokenize_rt.reversed_enumerate(tokens):
-            if token.line not in linenos_to_silence:
-                continue
-            if not token.src.strip():
-                continue
+class Ruff:
+    name = 'ruff'
 
-            if token.name == 'COMMENT':
-                new_comment = self._add_code_to_comment(token.src, rule_name)
-                tokens[idx] = tokens[idx]._replace(src=new_comment)
-            else:
-                tokens.insert(
-                    idx+1, tokenize_rt.Token('COMMENT', f'# noqa: {rule_name}'),
-                )
-                tokens.insert(idx+1, tokenize_rt.Token('UNIMPORTANT_WS', '  '))
+    def find_violations(
+        self, rule_name: RuleName, filenames: Sequence[FileName],
+    ) -> dict[FileName, list[Violation]]:
+        proc = subprocess.run(
+            (
+                sys.executable, '-mruff',
+                '--select', rule_name,
+                '--output-format', 'json',
+                *filenames,
+            ),
+            capture_output=True,
+            text=True,
+        )
 
-            linenos_to_silence.remove(token.line)
-
-        return tokenize_rt.tokens_to_src(tokens)
-
-    def _add_code_to_comment(self, comment: str, code: str) -> str:
-        if 'noqa: ' in comment:
-            return comment.replace(
-                'noqa: ', f'noqa: {code},',
+        # extract filenames and line numbers
+        all_violations = json.loads(proc.stdout)
+        results: dict[FileName, list[Violation]] = defaultdict(list)
+        for violation in all_violations:
+            results[violation['filename']].append(
+                Violation(
+                    rule_name=violation['code'],
+                    lineno=violation['location']['row'],
+                ),
             )
-        else:
-            return comment + f'  # noqa: {code}'
+
+        return results
+
+    def silence_violations(
+        self, src: str, violations: Sequence[Violation],
+    ) -> str:
+        [rule_name] = {violation.rule_name for violation in violations}
+        linenos_to_silence = {violation.lineno for violation in violations}
+        return noqa.add_noqa_comments(src, linenos_to_silence, rule_name)
 
 
 LINTERS: dict[str, type[Linter]] = {
     'fixit': Fixit,
     'flake8': Flake8,
+    'ruff': Ruff,
 }
 
 

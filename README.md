@@ -6,6 +6,7 @@ This tool currently works with:
 
 - [`fixit`](https://github.com/Instagram/Fixit)
 - [`flake8`](https://github.com/PyCQA/flake8) (silence only)
+- [`ruff`](https://docs.astral.sh/ruff/) (silence only)
 
 ## Usage
 
@@ -33,6 +34,12 @@ To add `noqa: F401` comments to ignore the `F401` rule in `flake8`, run:
 
 ```shell
 silence-lint-error flake8 F401 path/to/files/ path/to/more/files/
+```
+
+To add `noqa: F401` comments to ignore the `F401` rule in `ruff`, run:
+
+```shell
+silence-lint-error ruff F401 path/to/files/ path/to/more/files/
 ```
 
 ### fix silenced errors
