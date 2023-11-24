@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 
 import pytest
+from pytest_subprocess import FakeProcess
 
 from silence_lint_error.silence_lint_error import Fixit
 from silence_lint_error.silence_lint_error import main
@@ -187,3 +189,22 @@ if True:
 -> finding errors with fixit
 ERROR: errors found for multiple rules: ['CollapseIsinstanceChecks', 'NoStaticIfCondition']
 """  # noqa: B950
+
+
+def test_not_installed(capsys: pytest.CaptureFixture[str]):
+    with FakeProcess() as process:
+        process.register(
+            (sys.executable, '-mfixit', process.any()),
+            returncode=1, stderr='/path/to/python3: No module named fixit\n',
+        )
+
+        ret = main(('fixit', 'fixit.rules', 'path/to/file.py'))
+
+    assert ret == 1
+
+    captured = capsys.readouterr()
+    assert captured.out == ''
+    assert captured.err == """\
+-> finding errors with fixit
+ERROR: /path/to/python3: No module named fixit
+"""
