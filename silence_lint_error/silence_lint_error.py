@@ -14,6 +14,8 @@ from typing import TYPE_CHECKING
 import attrs
 import tokenize_rt
 
+from . import noqa
+
 if TYPE_CHECKING:
     from typing import TypeAlias
 
@@ -145,7 +147,7 @@ class Flake8:
                 continue
 
             if token.name == 'COMMENT':
-                new_comment = self._add_code_to_comment(token.src, rule_name)
+                new_comment = noqa.add_code_to_comment(token.src, rule_name)
                 tokens[idx] = tokens[idx]._replace(src=new_comment)
             else:
                 tokens.insert(
@@ -156,14 +158,6 @@ class Flake8:
             linenos_to_silence.remove(token.line)
 
         return tokenize_rt.tokens_to_src(tokens)
-
-    def _add_code_to_comment(self, comment: str, code: str) -> str:
-        if 'noqa: ' in comment:
-            return comment.replace(
-                'noqa: ', f'noqa: {code},',
-            )
-        else:
-            return comment + f'  # noqa: {code}'
 
 
 class Ruff:
@@ -211,7 +205,7 @@ class Ruff:
                 continue
 
             if token.name == 'COMMENT':
-                new_comment = self._add_code_to_comment(token.src, rule_name)
+                new_comment = noqa.add_code_to_comment(token.src, rule_name)
                 tokens[idx] = tokens[idx]._replace(src=new_comment)
             else:
                 tokens.insert(
@@ -222,14 +216,6 @@ class Ruff:
             linenos_to_silence.remove(token.line)
 
         return tokenize_rt.tokens_to_src(tokens)
-
-    def _add_code_to_comment(self, comment: str, code: str) -> str:
-        if 'noqa: ' in comment:
-            return comment.replace(
-                'noqa: ', f'noqa: {code},',
-            )
-        else:
-            return comment + f'  # noqa: {code}'
 
 
 LINTERS: dict[str, type[Linter]] = {

@@ -10,24 +10,6 @@ from silence_lint_error.silence_lint_error import Violation
 
 
 class TestFlake8:
-    @pytest.mark.parametrize(
-        'comment, expected',
-        (
-            ('# some comment', '# some comment  # noqa: ABC123'),
-            ('# noqa: DEF456', '# noqa: ABC123,DEF456'),
-            (
-                '# some comment  # noqa: DEF456',
-                '# some comment  # noqa: ABC123,DEF456',
-            ),
-            (
-                '# noqa: DEF456  # some comment',
-                '# noqa: ABC123,DEF456  # some comment',
-            ),
-        ),
-    )
-    def test_add_code_to_comment(self, comment: str, expected: str):
-        assert Flake8()._add_code_to_comment(comment, 'ABC123') == expected
-
     def test_add_comments(self):
         src = """\
 # a single-line statement on line 2
