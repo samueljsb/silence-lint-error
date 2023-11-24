@@ -11,6 +11,7 @@ from silence_lint_error.noqa import add_code_to_comment
         ('noqa: XYZ0', 'noqa: ABC1,XYZ0'),
         ('something  # noqa: XYZ0', 'something  # noqa: ABC1,XYZ0'),
         ('noqa: XYZ0  # something', 'noqa: ABC1,XYZ0  # something'),
+        ('noqa: XYZ0  # noqa: UVW3', 'noqa: ABC1,XYZ0  # noqa: UVW3'),
     ),
 )
 def test_add_code_to_comment(original, expected):

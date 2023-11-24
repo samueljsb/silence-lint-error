@@ -9,7 +9,7 @@ def add_code_to_comment(comment: str, code: str) -> str:
     """
     if 'noqa: ' in comment:
         return comment.replace(
-            'noqa: ', f'noqa: {code},',
+            'noqa: ', f'noqa: {code},', 1,
         )
     else:
         return comment + f'  # noqa: {code}'
