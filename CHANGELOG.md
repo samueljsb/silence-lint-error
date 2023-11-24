@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+### Added
+
+- Silence errors with `ruff`
+
 ## 1.0.0 (2023-11-17)
 
 This tool replaces
