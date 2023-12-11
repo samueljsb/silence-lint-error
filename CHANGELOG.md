@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+### Fixed
+
+- Fix bug where `noqa` is used for all linters' silence comments
+
+  We forgot to pass through the comment type when adding to existing comments.
+  These were always added as `noqa` comments, even for `fixit`.
+
 ## 1.2.0 (2023-12-11)
 
 ### Added
