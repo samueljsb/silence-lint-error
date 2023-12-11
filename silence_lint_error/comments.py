@@ -27,7 +27,7 @@ def add_error_silencing_comments(
             continue
 
         if token.name == 'COMMENT':
-            new_comment = add_code_to_comment(token.src, 'noqa', error_code)
+            new_comment = add_code_to_comment(token.src, comment_type, error_code)
             tokens[idx] = tokens[idx]._replace(src=new_comment)
         else:
             tokens.insert(
