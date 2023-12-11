@@ -114,6 +114,28 @@ class Fixit:
         return ''.join(new_lines)
 
 
+class FixitInline(Fixit):
+    """An alternative `fixit` implementation that adds `lint-fixme` comment inline.
+
+    This is sometimes necessary because `fixit` does not always respect `lint-fixme`
+    comments when they are on the line above the line causing the error. This is a
+    known bug and is reported in https://github.com/Instagram/Fixit/issues/405.
+
+    In some of these cases, placing the comment on the same line as the error can
+    ensure it is respected (e.g. for decorators).
+    """
+
+    def silence_violations(
+        self, src: str, violations: Sequence[Violation],
+    ) -> str:
+        [rule_name] = {violation.rule_name for violation in violations}
+        linenos_to_silence = {violation.lineno for violation in violations}
+        return comments.add_error_silencing_comments(
+            src, linenos_to_silence,
+            'lint-fixme', rule_name,
+        )
+
+
 class Flake8:
     name = 'flake8'
 
@@ -193,6 +215,7 @@ class Ruff:
 
 LINTERS: dict[str, type[Linter]] = {
     'fixit': Fixit,
+    'fixit-inline': FixitInline,
     'flake8': Flake8,
     'ruff': Ruff,
 }

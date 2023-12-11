@@ -139,6 +139,42 @@ found errors in 1 files
 """
 
 
+def test_main_inline(tmp_path: Path, capsys: pytest.CaptureFixture[str]):
+    python_module = tmp_path / 't.py'
+    python_module.write_text(
+        """\
+x = None
+isinstance(x, str) or isinstance(x, int)
+
+def f(x):
+    return isinstance(x, str) or isinstance(x, int)
+""",
+    )
+
+    ret = main(
+        ('fixit-inline', 'fixit.rules:CollapseIsinstanceChecks', str(python_module)),
+    )
+
+    assert ret == 1
+    assert python_module.read_text() == """\
+x = None
+isinstance(x, str) or isinstance(x, int)  # lint-fixme: CollapseIsinstanceChecks
+
+def f(x):
+    return isinstance(x, str) or isinstance(x, int)  # lint-fixme: CollapseIsinstanceChecks
+"""  # noqa: B950
+
+    captured = capsys.readouterr()
+    assert captured.out == f"""\
+{python_module}
+"""
+    assert captured.err == """\
+-> finding errors with fixit
+found errors in 1 files
+-> adding comments to silence errors
+"""
+
+
 def test_main_no_violations(
         tmp_path: Path, capsys: pytest.CaptureFixture[str],
 ):

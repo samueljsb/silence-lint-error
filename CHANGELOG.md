@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+### Added
+
+- Silence `fixit` errors with *inline* comments.
+
+  `fixit` does not always respect `lint-fixme` comments when they are on the
+  line above the line causing the error. This is a known bug and is reported
+  in https://github.com/Instagram/Fixit/issues/405.
+
+  In some of these cases (e.g. decorators), placing the comment on the same line
+  as the error can ensure it is respected. The `fixme-inline` linter option
+  allows the comments to be added inline instead of on the lien above.
+
+  N.B. This might prevent the comments from being successfully removed by the
+  `fix fixit` command, if there are other errors ignored on the same line.
+
 ## 1.1.0 (2023-11-24)
 
 ### Added
