@@ -54,4 +54,4 @@ hello there
     ),
 )
 def test_add_code_to_comment(original, expected):
-    assert add_code_to_comment(original, 'ABC1') == expected
+    assert add_code_to_comment(original, 'noqa', 'ABC1') == expected
