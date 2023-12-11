@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import pytest
 
-from silence_lint_error.noqa import add_code_to_comment
-from silence_lint_error.noqa import add_noqa_comments
+from silence_lint_error.comments import add_code_to_comment
+from silence_lint_error.comments import add_noqa_comments
 
 
 def test_add_noqa_comments():

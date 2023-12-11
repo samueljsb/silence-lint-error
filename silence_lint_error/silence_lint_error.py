@@ -13,7 +13,7 @@ from typing import TYPE_CHECKING
 
 import attrs
 
-from . import noqa
+from . import comments
 
 if TYPE_CHECKING:
     from typing import TypeAlias
@@ -147,7 +147,7 @@ class Flake8:
     ) -> str:
         [rule_name] = {violation.rule_name for violation in violations}
         linenos_to_silence = {violation.lineno for violation in violations}
-        return noqa.add_noqa_comments(src, linenos_to_silence, rule_name)
+        return comments.add_noqa_comments(src, linenos_to_silence, rule_name)
 
 
 class Ruff:
@@ -188,7 +188,7 @@ class Ruff:
     ) -> str:
         [rule_name] = {violation.rule_name for violation in violations}
         linenos_to_silence = {violation.lineno for violation in violations}
-        return noqa.add_noqa_comments(src, linenos_to_silence, rule_name)
+        return comments.add_noqa_comments(src, linenos_to_silence, rule_name)
 
 
 LINTERS: dict[str, type[Linter]] = {
