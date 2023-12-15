@@ -9,6 +9,8 @@ from typing import NamedTuple
 from typing import Protocol
 from typing import TYPE_CHECKING
 
+from . import comments
+
 
 if TYPE_CHECKING:
     from typing import TypeAlias
@@ -79,8 +81,32 @@ class Fixit:
         return proc.returncode, proc.stderr.strip()
 
 
+class Ruff:
+    name = 'ruff'
+
+    def remove_silence_comments(self, src: str, rule_name: RuleName) -> str:
+        return comments.remove_error_silencing_comments(
+            src, comment_type='noqa', error_code=rule_name,
+        )
+
+    def apply_fixes(
+            self, rule_name: RuleName, filenames: Sequence[str],
+    ) -> tuple[int, str]:
+        proc = subprocess.run(
+            (
+                sys.executable, '-mruff',
+                'check', '--fix',
+                '--select', rule_name,
+                *filenames,
+            ),
+            capture_output=True, text=True,
+        )
+        return proc.returncode, proc.stdout.strip()
+
+
 LINTERS: dict[str, type[Linter]] = {
     'fixit': Fixit,
+    'ruff': Ruff,
 }
 
 

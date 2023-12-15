@@ -6,7 +6,7 @@ This tool currently works with:
 
 - [`fixit`](https://github.com/Instagram/Fixit)
 - [`flake8`](https://github.com/PyCQA/flake8) (silence only)
-- [`ruff`](https://docs.astral.sh/ruff/) (silence only)
+- [`ruff`](https://docs.astral.sh/ruff/)
 
 ## Usage
 
@@ -52,6 +52,12 @@ apply the auto-fix for that rule, run:
 
 ```shell
 fix-silenced-error fixit fixit.rules:CollapseIsinstanceChecks path/to/files/ path/to/more/files/
+```
+
+To remove `noqa: F401` comments and apply the auto-fix for that rule, run:
+
+```shell
+fix-silenced-error ruff F401 path/to/files/ path/to/more/files/
 ```
 
 ## Rationale
