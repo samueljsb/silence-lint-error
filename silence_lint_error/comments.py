@@ -68,3 +68,55 @@ def add_code_to_comment(comment: str, comment_type: str, code: str) -> str:
         )
     else:
         return comment + f'  # {comment_type}: {code}'
+
+
+def remove_error_silencing_comments(
+        src: str,
+        comment_type: str, error_code: str,
+) -> str:
+    """Remove comments that silence linting errors from some code.
+
+    Args:
+        src: The content of the module to remove comments from.
+        comment_type: The type of comment to remove (e.g. `noqa` or `lint-fixme`)
+        error_code: The error code that is silenced.
+
+    Returns:
+        The content of the module without the comments that slence this error code.
+    """
+    tokens = tokenize_rt.src_to_tokens(src)
+
+    for idx, token in tokenize_rt.reversed_enumerate(tokens):
+        if (
+                token.name == 'COMMENT'
+                and comment_type in token.src and error_code in token.src
+        ):
+            new_comment = remove_code_from_comment(
+                token.src, comment_type, error_code,
+            )
+            if new_comment:
+                tokens[idx] = tokens[idx]._replace(src=new_comment)
+            else:
+                tokens.pop(idx)
+
+        # delete trailing whitespace caused by removing comments
+        elif (
+                token.name == 'UNIMPORTANT_WS'
+                and tokens[idx+1].name in {'NEWLINE', 'NL'}
+        ):
+            tokens.pop(idx)
+
+    return tokenize_rt.tokens_to_src(tokens)
+
+
+def remove_code_from_comment(comment: str, comment_type: str, code: str) -> str:
+    """Remove the error-silencing portion from a comment."""
+    return (
+        comment
+        .replace(f'{comment_type}: {code},', f'{comment_type}: ')
+        .replace(f',{code}', '')
+        .removeprefix(f'# {comment_type}: {code}')
+        .removesuffix(f'{comment_type}: {code}')
+        .strip()
+        .removesuffix('  #')
+    )

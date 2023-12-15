@@ -5,6 +5,8 @@ import pytest
 from silence_lint_error.comments import add_code_to_comment
 from silence_lint_error.comments import add_error_silencing_comments
 from silence_lint_error.comments import add_noqa_comments
+from silence_lint_error.comments import remove_code_from_comment
+from silence_lint_error.comments import remove_error_silencing_comments
 
 
 def test_add_error_silencing_comments():
@@ -59,6 +61,44 @@ foo = 'bar'  # silence-me: ABC123,DEF456
 """
 
 
+def test_remove_error_silencing_comments():
+    src = """\
+foo = 'bar'  # silence-me: ABC123
+
+def baz(  # silence-me: ABC123
+        a: int, b: int,
+) -> str:
+    ...
+
+s = '''
+hello there
+'''  # silence-me: ABC123
+
+foo = 'bar'  # TODO: make this better  # silence-me: ABC123
+foo = 'bar'  # silence-me: ABC123,DEF456
+"""
+
+    assert remove_error_silencing_comments(
+        src, 'silence-me', 'ABC123',
+        # use 'silence-me' to ensure we haven't hard-coded any real
+        # linter-specific types
+    ) == """\
+foo = 'bar'
+
+def baz(
+        a: int, b: int,
+) -> str:
+    ...
+
+s = '''
+hello there
+'''
+
+foo = 'bar'  # TODO: make this better
+foo = 'bar'  # silence-me: DEF456
+"""
+
+
 def test_add_noqa_comments():
     src = """\
 # a single-line statement on line 2
@@ -108,3 +148,22 @@ hello there
 )
 def test_add_code_to_comment(original, expected):
     assert add_code_to_comment(original, 'noqa', 'ABC1') == expected
+
+
+@pytest.mark.parametrize(
+    'original, expected', (
+        ('# something  # noqa: ABC1', '# something'),
+        ('# noqa: ABC1  # something', '# something'),
+        ('# noqa: ABC1,XYZ0', '# noqa: XYZ0'),
+        ('# noqa: XYZ0,ABC1', '# noqa: XYZ0'),
+        ('# noqa: XYZ0,ABC1,DEF3', '# noqa: XYZ0,DEF3'),
+        ('# something  # noqa: ABC1,XYZ0', '# something  # noqa: XYZ0'),
+        ('# something  # noqa: XYZ0,ABC1', '# something  # noqa: XYZ0'),
+        ('# noqa: ABC1,XYZ0  # something', '# noqa: XYZ0  # something'),
+        ('# noqa: XYZ0,ABC1  # something', '# noqa: XYZ0  # something'),
+        ('# noqa: ABC1,XYZ0  # noqa: UVW3', '# noqa: XYZ0  # noqa: UVW3'),
+        ('# noqa: XYZ0,ABC1  # noqa: UVW3', '# noqa: XYZ0  # noqa: UVW3'),
+    ),
+)
+def test_remove_code_from_comment(original, expected):
+    assert remove_code_from_comment(original, 'noqa', 'ABC1') == expected
