@@ -7,6 +7,7 @@ This tool currently works with:
 - [`fixit`](https://github.com/Instagram/Fixit)
 - [`flake8`](https://github.com/PyCQA/flake8) (silence only)
 - [`ruff`](https://docs.astral.sh/ruff/)
+- [`semgrep`](https://semgrep.dev/docs/) (silence only)
 
 ## Usage
 
@@ -41,6 +42,16 @@ To add `noqa: F401` comments to ignore the `F401` rule in `ruff`, run:
 ```shell
 silence-lint-error ruff F401 path/to/files/ path/to/more/files/
 ```
+
+To add `nosemgrep: python.lang.best-practice.sleep.arbitrary-sleep` comments to
+ignore the `python.lang.best-practice.sleep.arbitrary-sleep` rule in `semgrep`,
+run:
+
+```shell
+SEMGREP_RULES=r/python silence-lint-error semgrep python.lang.best-practice.sleep.arbitrary-sleep path/to/files/ path/to/more/files/
+```
+
+N.B. The rules must be configured in an environment variable.
 
 ### fix silenced errors
 
