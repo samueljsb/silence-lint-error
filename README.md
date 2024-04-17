@@ -52,6 +52,8 @@ SEMGREP_RULES=r/python silence-lint-error semgrep python.lang.best-practice.slee
 ```
 
 N.B. The rules must be configured in an environment variable.
+For more information about configuring semgrep rules,
+see the `--config` entry in the [`semgrep` documentation](https://semgrep.dev/docs/cli-reference-oss/)
 
 ### fix silenced errors
 
