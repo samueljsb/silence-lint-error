@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import argparse
 import json
 import re
 import subprocess
@@ -21,9 +20,6 @@ if TYPE_CHECKING:
     FileName: TypeAlias = str
     RuleName: TypeAlias = str
 
-
-# Linters
-# =======
 
 class Violation(NamedTuple):
     rule_name: RuleName
@@ -267,43 +263,6 @@ class Semgrep:
         return ''.join(new_lines)
 
 
-LINTERS: dict[str, type[Linter]] = {
-    'fixit': Fixit,
-    'fixit-inline': FixitInline,
-    'flake8': Flake8,
-    'ruff': Ruff,
-    'semgrep': Semgrep,
-}
-
-
-# CLI
-# ===
-
-class Context(NamedTuple):
-    rule_name: RuleName
-    file_names: list[FileName]
-    linter: Linter
-
-
-def _parse_args(argv: Sequence[str] | None) -> Context:
-    parser = argparse.ArgumentParser(
-        description='Ignore linting errors by adding ignore/fixme comments.',
-    )
-    parser.add_argument(
-        'linter', choices=LINTERS,
-        help='The linter for which to ignore errors',
-    )
-    parser.add_argument('rule_name')
-    parser.add_argument('filenames', nargs='*')
-    args = parser.parse_args(argv)
-
-    return Context(
-        rule_name=args.rule_name,
-        file_names=args.filenames,
-        linter=LINTERS[args.linter](),
-    )
-
-
 class NoViolationsFound(Exception):
     pass
 
@@ -313,7 +272,7 @@ class MultipleRulesViolated(Exception):
     rule_names: set[RuleName]
 
 
-def _find_violations(
+def find_violations(
         linter: Linter, rule_name: RuleName, file_names: Sequence[FileName],
 ) -> dict[FileName, list[Violation]]:
     violations = linter.find_violations(rule_name, file_names)
@@ -332,7 +291,7 @@ def _find_violations(
     return violations
 
 
-def _silence_violations(
+def silence_violations(
         linter: Linter, filename: FileName, violations: Sequence[Violation],
 ) -> bool:
     with open(filename) as f:
@@ -344,37 +303,3 @@ def _silence_violations(
         f.write(src_with_comments)
 
     return src_with_comments != src
-
-
-def main(argv: Sequence[str] | None = None) -> int:
-    rule_name, file_names, linter = _parse_args(argv)
-
-    print(f'-> finding errors with {linter.name}', file=sys.stderr)
-    try:
-        violations = _find_violations(linter, rule_name, file_names)
-    except ErrorRunningTool as e:
-        print(f'ERROR: {e.proc.stderr.strip()}', file=sys.stderr)
-        return e.proc.returncode
-    except NoViolationsFound:
-        print('no errors found', file=sys.stderr)
-        return 0
-    except MultipleRulesViolated as e:
-        print(
-            'ERROR: errors found for multiple rules:', sorted(e.rule_names),
-            file=sys.stderr,
-        )
-        return 1
-    else:
-        print(f'found errors in {len(violations)} files', file=sys.stderr)
-
-    print('-> adding comments to silence errors', file=sys.stderr)
-    ret = 0
-    for filename, file_violations in violations.items():
-        print(filename)
-        ret |= _silence_violations(linter, filename, file_violations)
-
-    return ret
-
-
-if __name__ == '__main__':
-    raise SystemExit(main())
