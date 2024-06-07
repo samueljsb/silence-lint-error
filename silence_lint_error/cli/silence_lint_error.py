@@ -10,8 +10,8 @@ from silence_lint_error.linters import flake8
 from silence_lint_error.linters import ruff
 from silence_lint_error.linters import semgrep
 from silence_lint_error.silencing import ErrorRunningTool
-from silence_lint_error.silencing import Silencer
 from silence_lint_error.silencing import Linter
+from silence_lint_error.silencing import Silencer
 
 
 LINTERS: dict[str, type[Linter]] = {
