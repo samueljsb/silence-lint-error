@@ -5,9 +5,8 @@ import sys
 from collections.abc import Sequence
 from typing import NamedTuple
 
-from silence_lint_error.fix_silenced_error import Linter
-from silence_lint_error.fix_silenced_error import NoChangesMade
-from silence_lint_error.fix_silenced_error import unsilence_violations
+from silence_lint_error.fixing import Fixer
+from silence_lint_error.fixing import Linter
 from silence_lint_error.linters import fixit
 from silence_lint_error.linters import ruff
 
@@ -48,13 +47,14 @@ def _parse_args(argv: Sequence[str] | None) -> Context:
 
 def main(argv: Sequence[str] | None = None) -> int:
     rule_name, file_names, linter = _parse_args(argv)
+    fixer = Fixer(linter)
 
     print('-> removing comments that silence errors', file=sys.stderr)
     changed_files = []
     for filename in file_names:
         try:
-            unsilence_violations(linter, rule_name, filename)
-        except NoChangesMade:
+            fixer.unsilence_violations(rule_name=rule_name, filename=filename)
+        except fixer.NoChangesMade:
             continue
         else:
             print(filename)
@@ -65,7 +65,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
 
     print(f'-> applying auto-fixes with {linter.name}', file=sys.stderr)
-    ret, message = linter.apply_fixes(rule_name, changed_files)
+    ret, message = fixer.apply_fixes(rule_name=rule_name, filenames=changed_files)
     print(message, file=sys.stderr)
 
     return ret
