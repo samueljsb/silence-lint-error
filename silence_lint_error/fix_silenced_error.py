@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import argparse
 import subprocess
 import sys
 from collections.abc import Iterator
@@ -19,9 +18,6 @@ if TYPE_CHECKING:
     RuleName: TypeAlias = str
 
 
-# Linters
-# =======
-
 class Violation(NamedTuple):
     rule_name: RuleName
     lineno: int
@@ -31,12 +27,20 @@ class Linter(Protocol):
     name: str
 
     def remove_silence_comments(self, src: str, rule_name: RuleName) -> str:
-        ...
+        """Remove comments that silence rule violations.
+
+        Returns:
+            Modified `src` without comments that silence the `violations`.
+        """
 
     def apply_fixes(
             self, rule_name: RuleName, filenames: Sequence[str],
     ) -> tuple[int, str]:
-        ...
+        """Fix violations of a rule.
+
+        Returns:
+            Return code and stdout from the process that fixed the violations.
+        """
 
 
 class Fixit:
@@ -104,48 +108,11 @@ class Ruff:
         return proc.returncode, proc.stdout.strip()
 
 
-LINTERS: dict[str, type[Linter]] = {
-    'fixit': Fixit,
-    'ruff': Ruff,
-}
-
-
-# CLI
-# ===
-
-class Context(NamedTuple):
-    rule_name: RuleName
-    file_names: list[FileName]
-    linter: Linter
-
-
-def _parse_args(argv: Sequence[str] | None) -> Context:
-    parser = argparse.ArgumentParser(
-        description=(
-            'Fix linting errors by removing ignore/fixme comments '
-            'and running auto-fixes.'
-        ),
-    )
-    parser.add_argument(
-        'linter', choices=LINTERS,
-        help='The linter to use to fix the errors',
-    )
-    parser.add_argument('rule_name')
-    parser.add_argument('filenames', nargs='*')
-    args = parser.parse_args(argv)
-
-    return Context(
-        rule_name=args.rule_name,
-        file_names=args.filenames,
-        linter=LINTERS[args.linter](),
-    )
-
-
 class NoChangesMade(Exception):
     pass
 
 
-def _unsilence_violations(
+def unsilence_violations(
         linter: Linter, rule_name: RuleName, filename: FileName,
 ) -> None:
     with open(filename) as f:
@@ -158,32 +125,3 @@ def _unsilence_violations(
 
     with open(filename, 'w') as f:
         f.write(src_without_comments)
-
-
-def main(argv: Sequence[str] | None = None) -> int:
-    rule_name, file_names, linter = _parse_args(argv)
-
-    print('-> removing comments that silence errors', file=sys.stderr)
-    changed_files = []
-    for filename in file_names:
-        try:
-            _unsilence_violations(linter, rule_name, filename)
-        except NoChangesMade:
-            continue
-        else:
-            print(filename)
-            changed_files.append(filename)
-
-    if not changed_files:
-        print('no silenced errors found', file=sys.stderr)
-        return 0
-
-    print(f'-> applying auto-fixes with {linter.name}', file=sys.stderr)
-    ret, message = linter.apply_fixes(rule_name, changed_files)
-    print(message, file=sys.stderr)
-
-    return ret
-
-
-if __name__ == '__main__':
-    raise SystemExit(main())
