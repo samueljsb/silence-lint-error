@@ -9,8 +9,8 @@ from collections.abc import Sequence
 from typing import TYPE_CHECKING
 
 from silence_lint_error import comments
-from silence_lint_error.silence_lint_error import ErrorRunningTool
-from silence_lint_error.silence_lint_error import Violation
+from silence_lint_error.silencing import ErrorRunningTool
+from silence_lint_error.silencing import Violation
 
 if TYPE_CHECKING:
     from typing import TypeAlias

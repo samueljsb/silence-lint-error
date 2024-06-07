@@ -9,12 +9,9 @@ from silence_lint_error.linters import fixit
 from silence_lint_error.linters import flake8
 from silence_lint_error.linters import ruff
 from silence_lint_error.linters import semgrep
-from silence_lint_error.silence_lint_error import ErrorRunningTool
-from silence_lint_error.silence_lint_error import find_violations
-from silence_lint_error.silence_lint_error import Linter
-from silence_lint_error.silence_lint_error import MultipleRulesViolated
-from silence_lint_error.silence_lint_error import NoViolationsFound
-from silence_lint_error.silence_lint_error import silence_violations
+from silence_lint_error.silencing import ErrorRunningTool
+from silence_lint_error.silencing import Silencer
+from silence_lint_error.silencing import Linter
 
 
 LINTERS: dict[str, type[Linter]] = {
@@ -53,17 +50,20 @@ def _parse_args(argv: Sequence[str] | None) -> Context:
 
 def main(argv: Sequence[str] | None = None) -> int:
     rule_name, file_names, linter = _parse_args(argv)
+    silencer = Silencer(linter)
 
     print(f'-> finding errors with {linter.name}', file=sys.stderr)
     try:
-        violations = find_violations(linter, rule_name, file_names)
+        violations = silencer.find_violations(
+            rule_name=rule_name, file_names=file_names,
+        )
     except ErrorRunningTool as e:
         print(f'ERROR: {e.proc.stderr.strip()}', file=sys.stderr)
         return e.proc.returncode
-    except NoViolationsFound:
+    except silencer.NoViolationsFound:
         print('no errors found', file=sys.stderr)
         return 0
-    except MultipleRulesViolated as e:
+    except silencer.MultipleRulesViolated as e:
         print(
             'ERROR: errors found for multiple rules:', sorted(e.rule_names),
             file=sys.stderr,
@@ -76,7 +76,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     ret = 0
     for filename, file_violations in violations.items():
         print(filename)
-        ret |= silence_violations(linter, filename, file_violations)
+        ret |= silencer.silence_violations(
+            filename=filename, violations=file_violations,
+        )
 
     return ret
 
