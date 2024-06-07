@@ -1,14 +1,9 @@
 from __future__ import annotations
 
-import subprocess
-import sys
-from collections.abc import Iterator
 from collections.abc import Sequence
 from typing import NamedTuple
 from typing import Protocol
 from typing import TYPE_CHECKING
-
-from . import comments
 
 
 if TYPE_CHECKING:
@@ -41,71 +36,6 @@ class Linter(Protocol):
         Returns:
             Return code and stdout from the process that fixed the violations.
         """
-
-
-class Fixit:
-    name = 'fixit'
-
-    def remove_silence_comments(self, src: str, rule_name: RuleName) -> str:
-        return ''.join(
-            self._remove_comments(
-                src.splitlines(keepends=True), rule_name,
-            ),
-        )
-
-    def _remove_comments(
-            self, lines: Sequence[str], rule_name: RuleName,
-    ) -> Iterator[str]:
-        __, rule_id = rule_name.rsplit(':', maxsplit=1)
-        fixme_comment = f'# lint-fixme: {rule_id}'
-        for line in lines:
-            if line.strip() == fixme_comment:  # fixme comment only
-                continue
-            elif line.rstrip().endswith(fixme_comment):  # code then fixme comment
-                trailing_ws = line.removeprefix(line.rstrip())
-                line_without_comment = (
-                    line.rstrip().removesuffix(fixme_comment)  # remove comment
-                    .rstrip()  # and remove any intermediate ws
-                )
-                yield line_without_comment + trailing_ws
-            else:
-                yield line
-
-    def apply_fixes(
-            self, rule_name: RuleName, filenames: Sequence[str],
-    ) -> tuple[int, str]:
-        proc = subprocess.run(
-            (
-                sys.executable, '-mfixit',
-                '--rules', rule_name,
-                'fix', '--automatic', *filenames,
-            ),
-            capture_output=True, text=True,
-        )
-        return proc.returncode, proc.stderr.strip()
-
-
-class Ruff:
-    name = 'ruff'
-
-    def remove_silence_comments(self, src: str, rule_name: RuleName) -> str:
-        return comments.remove_error_silencing_comments(
-            src, comment_type='noqa', error_code=rule_name,
-        )
-
-    def apply_fixes(
-            self, rule_name: RuleName, filenames: Sequence[str],
-    ) -> tuple[int, str]:
-        proc = subprocess.run(
-            (
-                sys.executable, '-mruff',
-                'check', '--fix',
-                '--select', rule_name,
-                *filenames,
-            ),
-            capture_output=True, text=True,
-        )
-        return proc.returncode, proc.stdout.strip()
 
 
 class NoChangesMade(Exception):

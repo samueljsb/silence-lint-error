@@ -5,16 +5,16 @@ import sys
 from collections.abc import Sequence
 from typing import NamedTuple
 
-from silence_lint_error.fix_silenced_error import Fixit
 from silence_lint_error.fix_silenced_error import Linter
 from silence_lint_error.fix_silenced_error import NoChangesMade
-from silence_lint_error.fix_silenced_error import Ruff
 from silence_lint_error.fix_silenced_error import unsilence_violations
+from silence_lint_error.linters import fixit
+from silence_lint_error.linters import ruff
 
 
 LINTERS: dict[str, type[Linter]] = {
-    'fixit': Fixit,
-    'ruff': Ruff,
+    'fixit': fixit.Fixit,
+    'ruff': ruff.Ruff,
 }
 
 
