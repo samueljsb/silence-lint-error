@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from silence_lint_error.silence_lint_error import Fixit
+from silence_lint_error.linters.fixit import Fixit
 from silence_lint_error.silence_lint_error import Violation
 
 

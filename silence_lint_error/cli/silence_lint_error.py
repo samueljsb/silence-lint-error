@@ -5,25 +5,24 @@ import sys
 from collections.abc import Sequence
 from typing import NamedTuple
 
+from silence_lint_error.linters import fixit
+from silence_lint_error.linters import flake8
+from silence_lint_error.linters import ruff
+from silence_lint_error.linters import semgrep
 from silence_lint_error.silence_lint_error import ErrorRunningTool
 from silence_lint_error.silence_lint_error import find_violations
-from silence_lint_error.silence_lint_error import Fixit
-from silence_lint_error.silence_lint_error import FixitInline
-from silence_lint_error.silence_lint_error import Flake8
 from silence_lint_error.silence_lint_error import Linter
 from silence_lint_error.silence_lint_error import MultipleRulesViolated
 from silence_lint_error.silence_lint_error import NoViolationsFound
-from silence_lint_error.silence_lint_error import Ruff
-from silence_lint_error.silence_lint_error import Semgrep
 from silence_lint_error.silence_lint_error import silence_violations
 
 
 LINTERS: dict[str, type[Linter]] = {
-    'fixit': Fixit,
-    'fixit-inline': FixitInline,
-    'flake8': Flake8,
-    'ruff': Ruff,
-    'semgrep': Semgrep,
+    'fixit': fixit.Fixit,
+    'fixit-inline': fixit.FixitInline,
+    'flake8': flake8.Flake8,
+    'ruff': ruff.Ruff,
+    'semgrep': semgrep.Semgrep,
 }
 
 
