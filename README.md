@@ -24,27 +24,35 @@ environment*.
 
 Find linting errors and add the `ignore` or `fixme` comments as applicable.
 
-For example, to add `lint-fixme: CollapseIsinstanceChecks` comments to ignore
-the `fixit.rules:CollapseIsinstanceChecks` rule from `fixit`, run:
+#### `fixit`
+
+To add `lint-fixme: CollapseIsinstanceChecks` comments to ignore
+the `fixit.rules:CollapseIsinstanceChecks` rule, run:
 
 ```shell
 silence-lint-error fixit fixit.rules:CollapseIsinstanceChecks path/to/files/ path/to/more/files/
 ```
 
-To add `noqa: F401` comments to ignore the `F401` rule in `flake8`, run:
+#### `flake8`
+
+To add `noqa: F401` comments to ignore the `F401` rule, run:
 
 ```shell
 silence-lint-error flake8 F401 path/to/files/ path/to/more/files/
 ```
 
-To add `noqa: F401` comments to ignore the `F401` rule in `ruff`, run:
+#### `ruff`
+
+To add `noqa: F401` comments to ignore the `F401` rule, run:
 
 ```shell
 silence-lint-error ruff F401 path/to/files/ path/to/more/files/
 ```
 
+#### `semgrep`
+
 To add `nosemgrep: python.lang.best-practice.sleep.arbitrary-sleep` comments to
-ignore the `python.lang.best-practice.sleep.arbitrary-sleep` rule in `semgrep`,
+ignore the `python.lang.best-practice.sleep.arbitrary-sleep` rule,
 run:
 
 ```shell
@@ -60,12 +68,16 @@ see the `--config` entry in the [`semgrep` documentation](https://semgrep.dev/do
 If there is an auto-fix for a linting error, you can remove the `ignore` or
 `fixme` comments and apply the auto-fix.
 
-For example, to remove all `lint-fixme: CollapseIsinstanceChecks` comments and
+#### `fixit`
+
+To remove all `lint-fixme: CollapseIsinstanceChecks` comments and
 apply the auto-fix for that rule, run:
 
 ```shell
 fix-silenced-error fixit fixit.rules:CollapseIsinstanceChecks path/to/files/ path/to/more/files/
 ```
+
+#### `ruff`
 
 To remove `noqa: F401` comments and apply the auto-fix for that rule, run:
 
