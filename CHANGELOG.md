@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+### Fixed
+
+- Use `ruff check` instead of `ruff` for running `ruff`.
+  This makes the tool compatible with ruff>=0.5.0.
+
 ## 1.4.1 (2024-05-09)
 
 The tests are no longer included in the built package.

@@ -27,6 +27,7 @@ class Ruff:
         proc = subprocess.run(
             (
                 sys.executable, '-mruff',
+                'check',
                 '--select', rule_name,
                 '--output-format', 'json',
                 *filenames,
