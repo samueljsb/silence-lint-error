@@ -1,8 +1,0 @@
-covdefaults
-coverage
-fixit
-flake8
-pytest
-pytest-subprocess
-ruff
-semgrep
