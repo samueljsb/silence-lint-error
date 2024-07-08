@@ -44,7 +44,7 @@ fixit==2.1.0
     # via silence-lint-error (setup.cfg)
 flake8==7.1.0
     # via silence-lint-error (setup.cfg)
-glom==22.1.0
+glom==23.5.0
     # via semgrep
 idna==3.7
     # via requests
