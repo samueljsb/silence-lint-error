@@ -71,7 +71,7 @@ packaging==24.1
     #   semgrep
 pathspec==0.12.1
     # via trailrunner
-peewee==3.17.5
+peewee==3.17.6
     # via semgrep
 pluggy==1.5.0
     # via pytest
