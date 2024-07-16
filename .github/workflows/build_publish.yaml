@@ -6,6 +6,11 @@ on:
     tags:
     - v*
 
+# Only allow one instance of this workflow for each PR.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
