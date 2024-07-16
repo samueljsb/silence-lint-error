@@ -107,7 +107,7 @@ ruamel-yaml-clib==0.2.8
     # via ruamel-yaml
 ruff==0.5.1
     # via silence-lint-error (setup.cfg)
-semgrep==1.78.0
+semgrep==1.79.0
     # via silence-lint-error (setup.cfg)
 tokenize-rt==5.2.0
     # via silence-lint-error (setup.cfg)
