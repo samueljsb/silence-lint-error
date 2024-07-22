@@ -44,6 +44,12 @@ repos:
     hooks:
     -   id: mypy
         additional_dependencies: [attrs]
+-   repo: https://github.com/astral-sh/uv-pre-commit
+    rev: '0.2.27'
+    hooks:
+    -   id: pip-compile
+        args: [--extra=dev, --output-file=requirements.txt, setup.cfg]
+        files: ^setup\.cfg|requirements\.txt$
 -   repo: https://github.com/pre-commit/pygrep-hooks
     rev: v1.10.0
     hooks:
