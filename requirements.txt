@@ -127,7 +127,7 @@ pytest==8.2.2
     # via
     #   silence-lint-error (setup.cfg)
     #   pytest-subprocess
-pytest-subprocess==1.5.0
+pytest-subprocess==1.5.2
     # via silence-lint-error (setup.cfg)
 pyyaml==6.0.1
     # via libcst
