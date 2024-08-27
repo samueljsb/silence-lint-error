@@ -72,6 +72,10 @@ mdurl==0.1.2
     # via markdown-it-py
 moreorless==0.4.0
     # via fixit
+mypy==1.11.2
+    # via silence-lint-error (setup.cfg)
+mypy-extensions==1.0.0
+    # via mypy
 opentelemetry-api==1.25.0
     # via
     #   opentelemetry-exporter-otlp-proto-http
@@ -163,6 +167,7 @@ trailrunner==1.4.0
     # via fixit
 typing-extensions==4.12.2
     # via
+    #   mypy
     #   opentelemetry-sdk
     #   semgrep
 urllib3==2.2.2

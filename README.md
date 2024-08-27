@@ -6,6 +6,7 @@ This tool currently works with:
 
 - [`fixit`](https://github.com/Instagram/Fixit)
 - [`flake8`](https://github.com/PyCQA/flake8) (silence only)
+- [`mypy`](https://www.mypy-lang.org) (silence only)
 - [`ruff`](https://docs.astral.sh/ruff/)
 - [`semgrep`](https://semgrep.dev/docs/) (silence only)
 
@@ -54,6 +55,14 @@ SEMGREP_RULES=r/python silence-lint-error semgrep python.lang.best-practice.slee
 N.B. The rules must be configured in an environment variable.
 For more information about configuring semgrep rules,
 see the `--config` entry in the [`semgrep` documentation](https://semgrep.dev/docs/cli-reference-oss/)
+
+To add `type: ignore` comments
+to ignore the `truthy-bool` error from `mypy`,
+run:
+
+```shell
+silence-lint-error mypy truthy-bool path/to/files/ path/to/more/files/
+```
 
 ### fix silenced errors
 

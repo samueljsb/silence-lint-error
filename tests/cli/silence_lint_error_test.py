@@ -396,3 +396,97 @@ no errors found
 -> finding errors with semgrep
 ERROR: zsh: command not found: semgrep
 """
+
+
+class TestMypy:
+    def test_main(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]):
+        (tmp_path / '__init__.py').touch()
+        python_module = tmp_path / 't.py'
+        python_module.write_text("""\
+from . import y
+
+def f() -> str:
+    return 1
+
+def g() -> str:
+    return 1  # type: ignore[misc]
+
+def g() -> str:
+    return 1  # a number
+""")
+        other_module = tmp_path / 'y.py'
+        other_module.write_text("""\
+def unrelated() -> str:
+    return 1
+""")
+
+        ret = main(('mypy', 'return-value', str(python_module)))
+
+        assert ret == 1
+        assert python_module.read_text() == """\
+from . import y
+
+def f() -> str:
+    return 1  # type: ignore[return-value]
+
+def g() -> str:
+    return 1  # type: ignore[misc,return-value]
+
+def g() -> str:
+    return 1  # a number  # type: ignore[return-value]
+"""
+        assert other_module.read_text() == """\
+def unrelated() -> str:
+    return 1
+"""
+
+        captured = capsys.readouterr()
+        assert captured.out == f"""\
+{python_module}
+"""
+        assert captured.err == """\
+-> finding errors with mypy
+found errors in 1 files
+-> adding comments to silence errors
+"""
+
+    def test_main_no_violations(
+            self, tmp_path: Path, capsys: pytest.CaptureFixture[str],
+    ):
+        src = """\
+def f() -> int:
+    return 1
+"""
+
+        python_module = tmp_path / 't.py'
+        python_module.write_text(src)
+
+        ret = main(('mypy', 'return-value', str(python_module)))
+
+        assert ret == 0
+        assert python_module.read_text() == src
+
+        captured = capsys.readouterr()
+        assert captured.out == ''
+        assert captured.err == """\
+-> finding errors with mypy
+no errors found
+"""
+
+    def test_not_installed(self, capsys: pytest.CaptureFixture[str]):
+        with FakeProcess() as process:
+            process.register(
+                ('mypy', process.any()),
+                returncode=127, stderr='zsh: command not found: mypy\n',
+            )
+
+            ret = main(('mypy', 'return-value', 'path/to/file.py'))
+
+        assert ret == 127
+
+        captured = capsys.readouterr()
+        assert captured.out == ''
+        assert captured.err == """\
+-> finding errors with mypy
+ERROR: zsh: command not found: mypy
+"""

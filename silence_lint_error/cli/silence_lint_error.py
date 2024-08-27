@@ -7,6 +7,7 @@ from typing import NamedTuple
 
 from silence_lint_error.linters import fixit
 from silence_lint_error.linters import flake8
+from silence_lint_error.linters import mypy
 from silence_lint_error.linters import ruff
 from silence_lint_error.linters import semgrep
 from silence_lint_error.silencing import ErrorRunningTool
@@ -18,6 +19,7 @@ LINTERS: dict[str, type[Linter]] = {
     'fixit': fixit.Fixit,
     'fixit-inline': fixit.FixitInline,
     'flake8': flake8.Flake8,
+    'mypy': mypy.Mypy,
     'ruff': ruff.Ruff,
     'semgrep': semgrep.Semgrep,
 }
