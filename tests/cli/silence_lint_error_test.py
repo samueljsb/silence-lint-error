@@ -286,6 +286,42 @@ def foo():
 no errors found
 """
 
+    def test_ignores_modules_with_syntax_error(
+            self, tmp_path: Path, capsys: pytest.CaptureFixture[str],
+    ):
+        python_module = tmp_path / 't.py'
+        python_module.write_text("""\
+import sys
+""")
+        invalid_module = tmp_path / 'y.py'
+        invalid_module.write_text("""\
+import sys
+
+print(
+""")
+
+        ret = main(('ruff', 'F401', str(tmp_path)))
+
+        assert ret == 1
+        assert python_module.read_text() == """\
+import sys  # noqa: F401
+"""
+        assert invalid_module.read_text() == """\
+import sys
+
+print(
+"""
+
+        captured = capsys.readouterr()
+        assert captured.out == f"""\
+{python_module}
+"""
+        assert captured.err == """\
+-> finding errors with ruff
+found errors in 1 files
+-> adding comments to silence errors
+"""
+
     def test_not_installed(self, capsys: pytest.CaptureFixture[str]):
         with FakeProcess() as process:
             process.register(

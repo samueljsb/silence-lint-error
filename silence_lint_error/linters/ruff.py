@@ -43,6 +43,10 @@ class Ruff:
         all_violations = json.loads(proc.stdout)
         results: dict[FileName, list[Violation]] = defaultdict(list)
         for violation in all_violations:
+            if violation['code'] is None:
+                # ignore syntax errors while parsing the file
+                continue
+
             results[violation['filename']].append(
                 Violation(
                     rule_name=violation['code'],
