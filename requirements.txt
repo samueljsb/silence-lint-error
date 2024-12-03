@@ -48,7 +48,7 @@ fixit==2.1.0
     # via silence-lint-error (setup.cfg)
 flake8==7.1.1
     # via silence-lint-error (setup.cfg)
-glom==22.1.0
+glom==24.11.0
     # via semgrep
 googleapis-common-protos==1.66.0
     # via opentelemetry-exporter-otlp-proto-http
