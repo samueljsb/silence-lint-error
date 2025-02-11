@@ -7,7 +7,7 @@ attrs==25.1.0
     #   jsonschema
     #   referencing
     #   semgrep
-boltons==21.0.0
+boltons==25.0.0
     # via
     #   face
     #   glom
@@ -30,7 +30,7 @@ colorama==0.4.6
     # via semgrep
 covdefaults==2.3.0
     # via silence-lint-error (setup.cfg)
-coverage==7.6.11
+coverage==7.6.12
     # via
     #   silence-lint-error (setup.cfg)
     #   covdefaults
@@ -48,13 +48,13 @@ fixit==2.1.0
     # via silence-lint-error (setup.cfg)
 flake8==7.1.1
     # via silence-lint-error (setup.cfg)
-glom==22.1.0
+glom==24.11.0
     # via semgrep
 googleapis-common-protos==1.66.0
     # via opentelemetry-exporter-otlp-proto-http
 idna==3.10
     # via requests
-importlib-metadata==7.1.0
+importlib-metadata==8.6.1
     # via opentelemetry-api
 iniconfig==2.0.0
     # via pytest
@@ -76,7 +76,7 @@ mypy==1.15.0
     # via silence-lint-error (setup.cfg)
 mypy-extensions==1.0.0
     # via mypy
-opentelemetry-api==1.25.0
+opentelemetry-api==1.30.0
     # via
     #   opentelemetry-exporter-otlp-proto-http
     #   opentelemetry-instrumentation
@@ -84,27 +84,27 @@ opentelemetry-api==1.25.0
     #   opentelemetry-sdk
     #   opentelemetry-semantic-conventions
     #   semgrep
-opentelemetry-exporter-otlp-proto-common==1.25.0
+opentelemetry-exporter-otlp-proto-common==1.30.0
     # via opentelemetry-exporter-otlp-proto-http
-opentelemetry-exporter-otlp-proto-http==1.25.0
+opentelemetry-exporter-otlp-proto-http==1.30.0
     # via semgrep
-opentelemetry-instrumentation==0.46b0
+opentelemetry-instrumentation==0.51b0
     # via opentelemetry-instrumentation-requests
-opentelemetry-instrumentation-requests==0.46b0
+opentelemetry-instrumentation-requests==0.51b0
     # via semgrep
-opentelemetry-proto==1.25.0
+opentelemetry-proto==1.30.0
     # via
     #   opentelemetry-exporter-otlp-proto-common
     #   opentelemetry-exporter-otlp-proto-http
-opentelemetry-sdk==1.25.0
+opentelemetry-sdk==1.30.0
     # via
     #   opentelemetry-exporter-otlp-proto-http
     #   semgrep
-opentelemetry-semantic-conventions==0.46b0
+opentelemetry-semantic-conventions==0.51b0
     # via
     #   opentelemetry-instrumentation-requests
     #   opentelemetry-sdk
-opentelemetry-util-http==0.46b0
+opentelemetry-util-http==0.51b0
     # via opentelemetry-instrumentation-requests
 packaging==24.2
     # via
@@ -117,7 +117,7 @@ peewee==3.17.9
     # via semgrep
 pluggy==1.5.0
     # via pytest
-protobuf==4.25.6
+protobuf==5.29.3
     # via
     #   googleapis-common-protos
     #   opentelemetry-proto
@@ -143,7 +143,7 @@ requests==2.32.3
     # via
     #   opentelemetry-exporter-otlp-proto-http
     #   semgrep
-rich==13.5.3
+rich==13.9.4
     # via semgrep
 rpds-py==0.22.3
     # via
@@ -161,7 +161,7 @@ setuptools==75.8.0
     # via opentelemetry-instrumentation
 tokenize-rt==6.1.0
     # via silence-lint-error (setup.cfg)
-tomli==2.0.2
+tomli==2.2.1
     # via semgrep
 trailrunner==1.4.0
     # via fixit
@@ -175,7 +175,7 @@ urllib3==2.3.0
     # via
     #   requests
     #   semgrep
-wcmatch==8.5.2
+wcmatch==10.0
     # via semgrep
 wrapt==1.17.2
     # via
