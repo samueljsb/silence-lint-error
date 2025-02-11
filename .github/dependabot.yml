@@ -8,3 +8,7 @@ updates:
   directory: "/"
   schedule:
     interval: weekly
+  groups:
+    testing-dependencies:
+      patterns:
+        - "*"  # group all updates
