@@ -33,7 +33,7 @@ colorama==0.4.6
     #   semgrep
 covdefaults==2.3.0
     # via silence-lint-error (setup.cfg)
-coverage==7.6.11
+coverage==7.6.12
     # via
     #   silence-lint-error (setup.cfg)
     #   covdefaults
@@ -49,11 +49,11 @@ face==24.0.0
     # via glom
 fixit==2.1.0
     # via silence-lint-error (setup.cfg)
-flake8==7.1.1
+flake8==7.1.2
     # via silence-lint-error (setup.cfg)
 glom==22.1.0
     # via semgrep
-googleapis-common-protos==1.66.0
+googleapis-common-protos==1.67.0
     # via opentelemetry-exporter-otlp-proto-http
 idna==3.10
     # via requests
@@ -158,7 +158,7 @@ ruamel-yaml-clib==0.2.12 ; python_full_version < '3.13' and platform_python_impl
     # via ruamel-yaml
 ruff==0.9.6
     # via silence-lint-error (setup.cfg)
-semgrep==1.107.0
+semgrep==1.108.0
     # via silence-lint-error (setup.cfg)
 setuptools==75.8.0
     # via opentelemetry-instrumentation
