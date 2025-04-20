@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import re
 import subprocess
-import sys
 from collections import defaultdict
 from collections.abc import Iterator
 from collections.abc import Sequence
@@ -30,7 +29,7 @@ class Fixit:
     ) -> dict[FileName, list[Violation]]:
         proc = subprocess.run(
             (
-                sys.executable, '-mfixit',
+                'fixit',
                 '--rules', rule_name,
                 'lint', *filenames,
             ),
@@ -113,7 +112,7 @@ class Fixit:
     ) -> tuple[int, str]:
         proc = subprocess.run(
             (
-                sys.executable, '-mfixit',
+                'fixit',
                 '--rules', rule_name,
                 'fix', '--automatic', *filenames,
             ),

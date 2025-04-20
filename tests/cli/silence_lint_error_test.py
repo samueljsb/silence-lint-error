@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import os
-import sys
 from pathlib import Path
 from unittest import mock
 
@@ -102,7 +101,7 @@ ERROR: errors found for multiple rules: ['CollapseIsinstanceChecks', 'NoStaticIf
     def test_not_installed(self, capsys: pytest.CaptureFixture[str]):
         with FakeProcess() as process:
             process.register(
-                (sys.executable, '-mfixit', process.any()),
+                ('fixit', process.any()),
                 returncode=1, stderr='/path/to/python3: No module named fixit\n',
             )
 
@@ -217,7 +216,7 @@ no errors found
     def test_not_installed(self, capsys: pytest.CaptureFixture[str]):
         with FakeProcess() as process:
             process.register(
-                (sys.executable, '-mflake8', process.any()),
+                ('flake8', process.any()),
                 returncode=1, stderr='/path/to/python3: No module named flake8\n',
             )
 
@@ -325,7 +324,7 @@ found errors in 1 files
     def test_not_installed(self, capsys: pytest.CaptureFixture[str]):
         with FakeProcess() as process:
             process.register(
-                (sys.executable, '-mruff', process.any()),
+                ('ruff', process.any()),
                 returncode=1, stderr='/path/to/python3: No module named ruff\n',
             )
 

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import subprocess
-import sys
 from collections import defaultdict
 from collections.abc import Sequence
 from typing import TYPE_CHECKING
@@ -25,7 +24,7 @@ class Flake8:
     ) -> dict[FileName, list[Violation]]:
         proc = subprocess.run(
             (
-                sys.executable, '-mflake8',
+                'flake8',
                 '--select', rule_name,
                 '--format', '%(path)s %(row)s',
                 *filenames,
