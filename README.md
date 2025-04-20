@@ -19,8 +19,7 @@ Install with pip:
 python -m pip install silence-lint-error
 ```
 
-You must also install the linting tool you wish to use
-*in the same virtual environment*.
+You must also install the linting tool you wish to use.
 
 ### silence linting errors
 

@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+### Changed
+
+- No longer require `fixit`, `flake8`, and `ruff`
+  to be installed in the same virtual environment
+  as `silence-lint-error`.
+  The tool will now invoke the tasks directly,
+  using whichever version is available.
+  This matches thebehaviour for `semgrep` and `mypy`.
+
 ## 1.5.1 (2024-11-27)
 
 ### Fixed

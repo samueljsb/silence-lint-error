@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import subprocess
-import sys
 from collections import defaultdict
 from collections.abc import Sequence
 from typing import TYPE_CHECKING
@@ -26,8 +25,7 @@ class Ruff:
     ) -> dict[FileName, list[Violation]]:
         proc = subprocess.run(
             (
-                sys.executable, '-mruff',
-                'check',
+                'ruff', 'check',
                 '--select', rule_name,
                 '--output-format', 'json',
                 *filenames,
@@ -73,8 +71,8 @@ class Ruff:
     ) -> tuple[int, str]:
         proc = subprocess.run(
             (
-                sys.executable, '-mruff',
-                'check', '--fix',
+                'ruff', 'check',
+                '--fix',
                 '--select', rule_name,
                 *filenames,
             ),
