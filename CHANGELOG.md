@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+## 1.6.0 (2025-04-22)
+
 ### Changed
 
 - No longer require `fixit`, `flake8`, and `ruff`
