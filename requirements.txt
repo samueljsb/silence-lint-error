@@ -160,7 +160,7 @@ ruff==0.11.4
     # via silence-lint-error (setup.cfg)
 semgrep==1.117.0
     # via silence-lint-error (setup.cfg)
-setuptools==78.1.0
+setuptools==78.1.1
     # via opentelemetry-instrumentation
 tokenize-rt==6.1.0
     # via silence-lint-error (setup.cfg)
