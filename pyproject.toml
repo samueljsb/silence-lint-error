@@ -45,9 +45,17 @@ fix-silenced-error = "silence_lint_error.cli.fix_silenced_error:main"
 Source = "https://github.com/samueljsb/silence-lint-error"
 Changelog = "https://github.com/samueljsb/silence-lint-error/blob/main/CHANGELOG.md"
 
+
+# Packaging
+# ---------
+
 [build-system]
 requires = ["setuptools>=77.0.3"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+# This is the default but we include it to be explicit.
+include-package-data = true
 
 
 # Mypy
