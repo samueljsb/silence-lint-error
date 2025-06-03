@@ -26,15 +26,15 @@ dependencies = [  # pragma: alphabetize[case-insensitive]
 
 [project.optional-dependencies]
 dev = [  # pragma: alphabetize[case-insensitive]
-    "covdefaults",
-    "coverage",
-    "fixit",
-    "flake8",
-    "mypy",
-    "pytest",
-    "pytest-subprocess",
-    "ruff",
-    "semgrep",
+  "covdefaults",
+  "coverage",
+  "fixit",
+  "flake8",
+  "mypy",
+  "pytest",
+  "pytest-subprocess",
+  "ruff",
+  "semgrep",
 ]
 
 [project.scripts]
@@ -45,9 +45,18 @@ fix-silenced-error = "silence_lint_error.cli.fix_silenced_error:main"
 Source = "https://github.com/samueljsb/silence-lint-error"
 Changelog = "https://github.com/samueljsb/silence-lint-error/blob/main/CHANGELOG.md"
 
+
+# Packaging
+# ---------
+
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=77.0.3"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+# This is the default but we include it to be explicit.
+include-package-data = true
+
 
 # Mypy
 # ====
@@ -60,26 +69,40 @@ exclude = [
 ]
 
 pretty = true
+show_error_codes = true
 
-check_untyped_defs = true
 enable_error_code = [  # pragma: alphabetize
+  "ignore-without-code",
+  "possibly-undefined",
   "truthy-bool",
+  "truthy-iterable",
 ]
-disallow_any_generics = true
-disallow_incomplete_defs = true
-disallow_untyped_defs = true
+strict = true
 ignore_missing_imports = true
 no_implicit_optional = true
-show_error_codes = true
 strict_equality = true
-warn_redundant_casts = true
 warn_unreachable = true
-warn_unused_ignores = true
+warn_no_return = true
 
 [[tool.mypy.overrides]]
 module = "tests.*"
 disallow_incomplete_defs = false
 disallow_untyped_defs = false
+
+
+# Pytest
+# ======
+
+[tool.pytest.ini_options]
+addopts = [
+  "--strict-markers",
+]
+filterwarnings = [
+  "error::DeprecationWarning",
+  "error::pytest.PytestCollectionWarning",
+]
+xfail_strict = true
+
 
 # Coverage
 # ========
