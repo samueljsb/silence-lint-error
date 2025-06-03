@@ -1,0 +1,88 @@
+[project]
+name = "silence_lint_error"
+version = "1.6.0"
+authors = [
+    {name = "Samuel Searles-Bryant", email = "sam@samueljsb.co.uk"},
+]
+description = "silence linting errors by adding ignore/fixme comments"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+classifiers = [  # pragma: alphabetize
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+
+requires-python = ">=3.9"
+dependencies = [  # pragma: alphabetize[case-insensitive]
+  "attrs",
+  "tokenize-rt",
+]
+
+[project.optional-dependencies]
+dev = [  # pragma: alphabetize[case-insensitive]
+    "covdefaults",
+    "coverage",
+    "fixit",
+    "flake8",
+    "mypy",
+    "pytest",
+    "pytest-subprocess",
+    "ruff",
+    "semgrep",
+]
+
+[project.scripts]
+silence-lint-error = "silence_lint_error.cli.silence_lint_error:main"
+fix-silenced-error = "silence_lint_error.cli.fix_silenced_error:main"
+
+[project.urls]
+Source = "https://github.com/samueljsb/silence-lint-error"
+Changelog = "https://github.com/samueljsb/silence-lint-error/blob/main/CHANGELOG.md"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+# Mypy
+# ====
+
+[tool.mypy]
+files = "."
+exclude = [
+  "build/",
+  "venv",
+]
+
+pretty = true
+
+check_untyped_defs = true
+enable_error_code = [  # pragma: alphabetize
+  "truthy-bool",
+]
+disallow_any_generics = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+no_implicit_optional = true
+show_error_codes = true
+strict_equality = true
+warn_redundant_casts = true
+warn_unreachable = true
+warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_incomplete_defs = false
+disallow_untyped_defs = false
+
+# Coverage
+# ========
+
+[tool.coverage.run]
+plugins = ["covdefaults"]
