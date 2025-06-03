@@ -39,7 +39,9 @@ def add_error_silencing_comments(
 
         error_lines.remove(token.line)
 
-    return tokenize_rt.tokens_to_src(tokens)
+    return tokenize_rt.tokens_to_src(tokens)  # type: ignore[no-any-return]
+    # tokenize-rt is a single-file distribution so cannot provide type
+    # information. See https://github.com/asottile/tokenize-rt/issues/147.
 
 
 def add_noqa_comments(src: str, lines: set[int], error_code: str) -> str:
@@ -106,7 +108,9 @@ def remove_error_silencing_comments(
         ):
             tokens.pop(idx)
 
-    return tokenize_rt.tokens_to_src(tokens)
+    return tokenize_rt.tokens_to_src(tokens)  # type: ignore[no-any-return]
+    # tokenize-rt is a single-file distribution so cannot provide type
+    # information. See https://github.com/asottile/tokenize-rt/issues/147.
 
 
 def remove_code_from_comment(comment: str, comment_type: str, code: str) -> str:

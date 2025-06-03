@@ -86,4 +86,6 @@ class Mypy:
 
             lines_with_errors.remove(token.line)
 
-        return tokenize_rt.tokens_to_src(tokens)
+        return tokenize_rt.tokens_to_src(tokens)  # type: ignore[no-any-return]
+        # tokenize-rt is a single-file distribution so cannot provide type
+        # information. See https://github.com/asottile/tokenize-rt/issues/147.

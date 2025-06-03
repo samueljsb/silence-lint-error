@@ -69,21 +69,20 @@ exclude = [
 ]
 
 pretty = true
+show_error_codes = true
 
-check_untyped_defs = true
 enable_error_code = [  # pragma: alphabetize
+  "ignore-without-code",
+  "possibly-undefined",
   "truthy-bool",
+  "truthy-iterable",
 ]
-disallow_any_generics = true
-disallow_incomplete_defs = true
-disallow_untyped_defs = true
+strict = true
 ignore_missing_imports = true
 no_implicit_optional = true
-show_error_codes = true
 strict_equality = true
-warn_redundant_casts = true
 warn_unreachable = true
-warn_unused_ignores = true
+warn_no_return = true
 
 [[tool.mypy.overrides]]
 module = "tests.*"
