@@ -46,7 +46,7 @@ Source = "https://github.com/samueljsb/silence-lint-error"
 Changelog = "https://github.com/samueljsb/silence-lint-error/blob/main/CHANGELOG.md"
 
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=77.0.3"]
 build-backend = "setuptools.build_meta"
 
 
