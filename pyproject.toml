@@ -26,15 +26,15 @@ dependencies = [  # pragma: alphabetize[case-insensitive]
 
 [project.optional-dependencies]
 dev = [  # pragma: alphabetize[case-insensitive]
-    "covdefaults",
-    "coverage",
-    "fixit",
-    "flake8",
-    "mypy",
-    "pytest",
-    "pytest-subprocess",
-    "ruff",
-    "semgrep",
+  "covdefaults",
+  "coverage",
+  "fixit",
+  "flake8",
+  "mypy",
+  "pytest",
+  "pytest-subprocess",
+  "ruff",
+  "semgrep",
 ]
 
 [project.scripts]
