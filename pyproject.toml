@@ -49,6 +49,7 @@ Changelog = "https://github.com/samueljsb/silence-lint-error/blob/main/CHANGELOG
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
+
 # Mypy
 # ====
 
@@ -80,6 +81,21 @@ warn_unused_ignores = true
 module = "tests.*"
 disallow_incomplete_defs = false
 disallow_untyped_defs = false
+
+
+# Pytest
+# ======
+
+[tool.pytest.ini_options]
+addopts = [
+  "--strict-markers",
+]
+filterwarnings = [
+  "error::DeprecationWarning",
+  "error::pytest.PytestCollectionWarning",
+]
+xfail_strict = true
+
 
 # Coverage
 # ========
