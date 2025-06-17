@@ -120,7 +120,7 @@ peewee==3.17.9
     # via semgrep
 pluggy==1.5.0
     # via pytest
-protobuf==4.25.6
+protobuf==4.25.8
     # via
     #   googleapis-common-protos
     #   opentelemetry-proto
