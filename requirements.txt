@@ -174,7 +174,7 @@ typing-extensions==4.13.1
     #   opentelemetry-sdk
     #   referencing
     #   semgrep
-urllib3==2.3.0
+urllib3==2.5.0
     # via
     #   requests
     #   semgrep
