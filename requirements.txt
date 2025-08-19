@@ -7,16 +7,16 @@ attrs==25.3.0
     #   jsonschema
     #   referencing
     #   semgrep
-boltons==21.0.0
+boltons==25.0.0
     # via
     #   face
     #   glom
     #   semgrep
-bracex==2.5.post1
+bracex==2.6
     # via wcmatch
-certifi==2025.1.31
+certifi==2025.8.3
     # via requests
-charset-normalizer==3.4.1
+charset-normalizer==3.4.3
     # via requests
 click==8.1.8
     # via
@@ -33,7 +33,7 @@ colorama==0.4.6
     #   semgrep
 covdefaults==2.3.0
     # via silence-lint-error (pyproject.toml)
-coverage==7.8.0
+coverage==7.10.4
     # via
     #   silence-lint-error (pyproject.toml)
     #   covdefaults
@@ -43,29 +43,29 @@ deprecated==1.2.18
     # via
     #   opentelemetry-api
     #   opentelemetry-exporter-otlp-proto-http
-exceptiongroup==1.2.2
+exceptiongroup==1.3.0
     # via semgrep
 face==24.0.0
     # via glom
 fixit==2.1.0
     # via silence-lint-error (pyproject.toml)
-flake8==7.2.0
+flake8==7.3.0
     # via silence-lint-error (pyproject.toml)
-glom==22.1.0
+glom==24.11.0
     # via semgrep
-googleapis-common-protos==1.69.2
+googleapis-common-protos==1.70.0
     # via opentelemetry-exporter-otlp-proto-http
 idna==3.10
     # via requests
-importlib-metadata==7.1.0
+importlib-metadata==8.7.0
     # via opentelemetry-api
 iniconfig==2.1.0
     # via pytest
-jsonschema==4.23.0
+jsonschema==4.25.1
     # via semgrep
-jsonschema-specifications==2024.10.1
+jsonschema-specifications==2025.4.1
     # via jsonschema
-libcst==1.7.0
+libcst==1.8.2
     # via fixit
 markdown-it-py==3.0.0
     # via rich
@@ -73,13 +73,13 @@ mccabe==0.7.0
     # via flake8
 mdurl==0.1.2
     # via markdown-it-py
-moreorless==0.4.0
+moreorless==0.5.0
     # via fixit
-mypy==1.15.0
+mypy==1.17.1
     # via silence-lint-error (pyproject.toml)
-mypy-extensions==1.0.0
+mypy-extensions==1.1.0
     # via mypy
-opentelemetry-api==1.25.0
+opentelemetry-api==1.36.0
     # via
     #   opentelemetry-exporter-otlp-proto-http
     #   opentelemetry-instrumentation
@@ -87,50 +87,50 @@ opentelemetry-api==1.25.0
     #   opentelemetry-sdk
     #   opentelemetry-semantic-conventions
     #   semgrep
-opentelemetry-exporter-otlp-proto-common==1.25.0
+opentelemetry-exporter-otlp-proto-common==1.36.0
     # via opentelemetry-exporter-otlp-proto-http
-opentelemetry-exporter-otlp-proto-http==1.25.0
+opentelemetry-exporter-otlp-proto-http==1.36.0
     # via semgrep
-opentelemetry-instrumentation==0.46b0
+opentelemetry-instrumentation==0.57b0
     # via opentelemetry-instrumentation-requests
-opentelemetry-instrumentation-requests==0.46b0
+opentelemetry-instrumentation-requests==0.57b0
     # via semgrep
-opentelemetry-proto==1.25.0
+opentelemetry-proto==1.36.0
     # via
     #   opentelemetry-exporter-otlp-proto-common
     #   opentelemetry-exporter-otlp-proto-http
-opentelemetry-sdk==1.25.0
+opentelemetry-sdk==1.36.0
     # via
     #   opentelemetry-exporter-otlp-proto-http
     #   semgrep
-opentelemetry-semantic-conventions==0.46b0
+opentelemetry-semantic-conventions==0.57b0
     # via
     #   opentelemetry-instrumentation-requests
     #   opentelemetry-sdk
-opentelemetry-util-http==0.46b0
+opentelemetry-util-http==0.57b0
     # via opentelemetry-instrumentation-requests
-packaging==24.2
+packaging==25.0
     # via
     #   fixit
     #   pytest
     #   semgrep
 pathspec==0.12.1
     # via trailrunner
-peewee==3.17.9
+peewee==3.18.2
     # via semgrep
-pluggy==1.5.0
+pluggy==1.6.0
     # via pytest
-protobuf==4.25.8
+protobuf==6.32.0
     # via
     #   googleapis-common-protos
     #   opentelemetry-proto
-pycodestyle==2.13.0
+pycodestyle==2.14.0
     # via flake8
-pyflakes==3.3.2
+pyflakes==3.4.0
     # via flake8
-pygments==2.19.1
+pygments==2.19.2
     # via rich
-pytest==8.3.5
+pytest==8.4.1
     # via
     #   silence-lint-error (pyproject.toml)
     #   pytest-subprocess
@@ -142,33 +142,33 @@ referencing==0.36.2
     # via
     #   jsonschema
     #   jsonschema-specifications
-requests==2.32.4
+requests==2.32.5
     # via
     #   opentelemetry-exporter-otlp-proto-http
     #   semgrep
-rich==13.5.3
+rich==14.1.0
     # via semgrep
-rpds-py==0.24.0
+rpds-py==0.27.0
     # via
     #   jsonschema
     #   referencing
-ruamel-yaml==0.18.10
+ruamel-yaml==0.18.14
     # via semgrep
 ruamel-yaml-clib==0.2.12 ; python_full_version < '3.13' and platform_python_implementation == 'CPython'
     # via ruamel-yaml
-ruff==0.11.4
+ruff==0.12.9
     # via silence-lint-error (pyproject.toml)
-semgrep==1.117.0
+semgrep==1.132.1
     # via silence-lint-error (pyproject.toml)
-setuptools==78.1.1
+setuptools==80.9.0
     # via opentelemetry-instrumentation
-tokenize-rt==6.1.0
+tokenize-rt==6.2.0
     # via silence-lint-error (pyproject.toml)
-tomli==2.0.2
+tomli==2.2.1
     # via semgrep
 trailrunner==1.4.0
     # via fixit
-typing-extensions==4.13.1
+typing-extensions==4.14.1
     # via
     #   mypy
     #   opentelemetry-sdk
@@ -178,11 +178,11 @@ urllib3==2.5.0
     # via
     #   requests
     #   semgrep
-wcmatch==8.5.2
+wcmatch==10.1
     # via semgrep
-wrapt==1.17.2
+wrapt==1.17.3
     # via
     #   deprecated
     #   opentelemetry-instrumentation
-zipp==3.21.0
+zipp==3.23.0
     # via importlib-metadata
