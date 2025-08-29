@@ -1,0 +1,9 @@
+covdefaults
+coverage
+fixit
+flake8
+mypy
+pytest
+pytest-subprocess
+ruff
+semgrep

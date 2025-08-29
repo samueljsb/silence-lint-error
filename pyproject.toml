@@ -24,19 +24,6 @@ dependencies = [  # pragma: alphabetize[case-insensitive]
   "tokenize-rt",
 ]
 
-[project.optional-dependencies]
-dev = [  # pragma: alphabetize[case-insensitive]
-  "covdefaults",
-  "coverage",
-  "fixit",
-  "flake8",
-  "mypy",
-  "pytest",
-  "pytest-subprocess",
-  "ruff",
-  "semgrep",
-]
-
 [project.scripts]
 silence-lint-error = "silence_lint_error.cli.silence_lint_error:main"
 fix-silenced-error = "silence_lint_error.cli.fix_silenced_error:main"
