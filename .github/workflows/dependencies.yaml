@@ -3,6 +3,7 @@ name: dependencies
 on:
   pull_request:
     paths:
+    - pyproject.toml
     - requirements*
 
 # Only allow one instance of this workflow for each PR.
