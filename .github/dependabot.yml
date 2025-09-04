@@ -4,11 +4,3 @@ updates:
   directory: "/"
   schedule:
     interval: weekly
-- package-ecosystem: "pip"
-  directory: "/"
-  schedule:
-    interval: weekly
-  groups:
-    testing-dependencies:
-      patterns:
-        - "*"  # group all updates
