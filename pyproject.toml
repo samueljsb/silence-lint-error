@@ -45,6 +45,28 @@ build-backend = "setuptools.build_meta"
 include-package-data = true
 
 
+# Development
+# -----------
+
+[dependency-groups]
+test = [
+  "pytest",
+  "pytest-subprocess",
+  "coverage",
+  "covdefaults",
+  # compatible tools we run in tests
+  "fixit",
+  "flake8",
+  "mypy",
+  "ruff",
+  "semgrep",
+]
+mypy = [
+  "mypy",
+  {include-group = "test"},
+]
+
+
 # Mypy
 # ====
 
