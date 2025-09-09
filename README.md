@@ -77,9 +77,9 @@ see the `--config` entry in the [`semgrep` documentation](https://semgrep.dev/do
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |____ rule.yml/<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|____typing_rules<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  |___another_rule.yml
-> 
+>
 > If you run semgrep from within `project_root` with `SEMGREP_RULES=./semgrep/typing_rules`, `{namespace-prefix}` will take the value of `semgrep.typing_rules`<br>
-> 
+>
 > The command to run would then become
 > ```shell
 > SEMGREP_RULES=./semgrep/typing_rules silence-lint-error semgrep semgrep.typing_rules.rule_name ./src
