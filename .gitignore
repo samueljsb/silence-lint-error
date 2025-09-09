@@ -6,6 +6,8 @@ dist/
 
 venv/
 
+.idea/
+
 .tox/
 .coverage
 .coverage.*
