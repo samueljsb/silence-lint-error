@@ -56,17 +56,35 @@ silence-lint-error ruff F401 path/to/files/ path/to/more/files/
 
 ### Semgrep
 
-To add `nosemgrep: python.lang.best-practice.sleep.arbitrary-sleep` comments
-to ignore the `python.lang.best-practice.sleep.arbitrary-sleep` rule in `semgrep`,
+To add `nosemgrep: {namespace-prefix}.best-practice.sleep.arbitrary-sleep` comments
+to ignore the `{namespace-prefix}.best-practice.sleep.arbitrary-sleep` rule in `semgrep`,
 run:
 
 ```shell
-SEMGREP_RULES=r/python silence-lint-error semgrep python.lang.best-practice.sleep.arbitrary-sleep path/to/files/ path/to/more/files/
+SEMGREP_RULES=r/python silence-lint-error semgrep {namespace-prefix}.best-practice.sleep.arbitrary-sleep path/to/files/ path/to/more/files/
 ```
 
-N.B. The rules must be configured in an environment variable.
-For more information about configuring semgrep rules,
+> The rules must be configured in the `SEMGREP_RULES` environment variable. <br>
+> For more information about configuring semgrep rules,
 see the `--config` entry in the [`semgrep` documentation](https://semgrep.dev/docs/cli-reference-oss/)
+
+
+> Semgrep sort of namespaces the rules based on the name of the directory. For example, if you have this folder structure: <br>
+> <br>
+└── project_root/<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|____ src<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |____ semgrep/<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |____ rule.yml/<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|____typing_rules<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  |___another_rule.yml
+> 
+> If you run semgrep from within `project_root` with `SEMGREP_RULES=./semgrep/typing_rules`, `{namespace-prefix}` will take the value of `semgrep.typing_rules`<br>
+> 
+> The command to run would then become
+> ```shell
+> SEMGREP_RULES=./semgrep/typing_rules silence-lint-error semgrep semgrep.typing_rules.rule_name ./src
+> ```
+
 
 ### Mypy
 To add `type: ignore` comments
