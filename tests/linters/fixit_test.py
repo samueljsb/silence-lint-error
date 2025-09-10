@@ -70,7 +70,7 @@ class TestFixit:
             self,
             lines: list[str],
             expected_violations: list[tuple[str, Violation] | None],
-    ):
+    ) -> None:
         violations = [
             Fixit()._parse_output_line(line)
             for line in lines
@@ -78,7 +78,7 @@ class TestFixit:
 
         assert violations == expected_violations
 
-    def test_find_violations(self, tmp_path: Path):
+    def test_find_violations(self, tmp_path: Path) -> None:
         python_module = tmp_path / 't.py'
         python_module.write_text(
             """\
