@@ -11,7 +11,7 @@ from silence_lint_error.cli.silence_lint_error import main
 
 
 class TestFixit:
-    def test_main(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]):
+    def test_main(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
         python_module = tmp_path / 't.py'
         python_module.write_text(
             """\
@@ -50,7 +50,7 @@ found errors in 1 files
 
     def test_main_no_violations(
             self, tmp_path: Path, capsys: pytest.CaptureFixture[str],
-    ):
+    ) -> None:
         src = """\
 def foo():
     print('hello there')
@@ -75,7 +75,7 @@ no errors found
 
     def test_main_multiple_different_violations(
             self, tmp_path: Path, capsys: pytest.CaptureFixture[str],
-    ):
+    ) -> None:
         src = """\
 x = None
 isinstance(x, str) or isinstance(x, int)
@@ -98,7 +98,7 @@ if True:
 ERROR: errors found for multiple rules: ['CollapseIsinstanceChecks', 'NoStaticIfCondition']
 """  # noqa: B950
 
-    def test_not_installed(self, capsys: pytest.CaptureFixture[str]):
+    def test_not_installed(self, capsys: pytest.CaptureFixture[str]) -> None:
         with FakeProcess() as process:
             process.register(
                 ('fixit', process.any()),
@@ -118,7 +118,9 @@ ERROR: /path/to/python3: No module named fixit
 
 
 class TestFixitInline:
-    def test_main_inline(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]):
+    def test_main_inline(
+            self, tmp_path: Path, capsys: pytest.CaptureFixture[str],
+    ) -> None:
         python_module = tmp_path / 't.py'
         python_module.write_text(
             """\
@@ -159,7 +161,7 @@ found errors in 1 files
 
 
 class TestFlake8:
-    def test_main(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]):
+    def test_main(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
         python_module = tmp_path / 't.py'
         python_module.write_text("""\
 import sys
@@ -192,7 +194,7 @@ found errors in 1 files
 
     def test_main_no_violations(
             self, tmp_path: Path, capsys: pytest.CaptureFixture[str],
-    ):
+    ) -> None:
         src = """\
 def foo():
     print('hello there')
@@ -213,7 +215,7 @@ def foo():
 no errors found
 """
 
-    def test_not_installed(self, capsys: pytest.CaptureFixture[str]):
+    def test_not_installed(self, capsys: pytest.CaptureFixture[str]) -> None:
         with FakeProcess() as process:
             process.register(
                 ('flake8', process.any()),
@@ -233,7 +235,7 @@ ERROR: /path/to/python3: No module named flake8
 
 
 class TestRuff:
-    def test_main(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]):
+    def test_main(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
         python_module = tmp_path / 't.py'
         python_module.write_text("""\
 import sys
@@ -264,7 +266,7 @@ found errors in 1 files
 
     def test_main_no_violations(
             self, tmp_path: Path, capsys: pytest.CaptureFixture[str],
-    ):
+    ) -> None:
         src = """\
 def foo():
     print('hello there')
@@ -287,7 +289,7 @@ no errors found
 
     def test_ignores_modules_with_syntax_error(
             self, tmp_path: Path, capsys: pytest.CaptureFixture[str],
-    ):
+    ) -> None:
         python_module = tmp_path / 't.py'
         python_module.write_text("""\
 import sys
@@ -321,7 +323,7 @@ found errors in 1 files
 -> adding comments to silence errors
 """
 
-    def test_not_installed(self, capsys: pytest.CaptureFixture[str]):
+    def test_not_installed(self, capsys: pytest.CaptureFixture[str]) -> None:
         with FakeProcess() as process:
             process.register(
                 ('ruff', process.any()),
@@ -341,7 +343,7 @@ ERROR: /path/to/python3: No module named ruff
 
 
 class TestSemgrep:
-    def test_main(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]):
+    def test_main(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
         python_module = tmp_path / 't.py'
         python_module.write_text(
             """\
@@ -386,7 +388,7 @@ found errors in 1 files
 
     def test_main_no_violations(
             self, tmp_path: Path, capsys: pytest.CaptureFixture[str],
-    ):
+    ) -> None:
         src = """\
 def foo():
     print('hello there')
@@ -414,7 +416,7 @@ def foo():
 no errors found
 """
 
-    def test_not_installed(self, capsys: pytest.CaptureFixture[str]):
+    def test_not_installed(self, capsys: pytest.CaptureFixture[str]) -> None:
         with FakeProcess() as process:
             process.register(
                 ('semgrep', process.any()),
@@ -434,7 +436,7 @@ ERROR: zsh: command not found: semgrep
 
 
 class TestMypy:
-    def test_main(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]):
+    def test_main(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
         (tmp_path / '__init__.py').touch()
         python_module = tmp_path / 't.py'
         python_module.write_text("""\
@@ -487,7 +489,7 @@ found errors in 1 files
 
     def test_main_no_violations(
             self, tmp_path: Path, capsys: pytest.CaptureFixture[str],
-    ):
+    ) -> None:
         src = """\
 def f() -> int:
     return 1
@@ -508,7 +510,7 @@ def f() -> int:
 no errors found
 """
 
-    def test_not_installed(self, capsys: pytest.CaptureFixture[str]):
+    def test_not_installed(self, capsys: pytest.CaptureFixture[str]) -> None:
         with FakeProcess() as process:
             process.register(
                 ('mypy', process.any()),

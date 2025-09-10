@@ -93,11 +93,6 @@ strict_equality = true
 warn_unreachable = true
 warn_no_return = true
 
-[[tool.mypy.overrides]]
-module = "tests.*"
-disallow_incomplete_defs = false
-disallow_untyped_defs = false
-
 
 # Pytest
 # ======

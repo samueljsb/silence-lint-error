@@ -8,7 +8,7 @@ from silence_lint_error.cli.fix_silenced_error import main
 
 
 class TestFixit:
-    def test_main(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]):
+    def test_main(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
         src = """\
 x = None
 # lint-fixme: CollapseIsinstanceChecks
@@ -50,7 +50,7 @@ def f(x):
 
     def test_main_no_violations(
             self, tmp_path: Path, capsys: pytest.CaptureFixture[str],
-    ):
+    ) -> None:
         src = """\
 def foo():
     print('hello there')
@@ -75,7 +75,7 @@ no silenced errors found
 
 
 class TestRuff:
-    def test_main(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]):
+    def test_main(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
         src = """\
 import math
 import os  # noqa: F401
@@ -109,7 +109,7 @@ Found 1 error (1 fixed, 0 remaining).
 
     def test_main_no_violations(
             self, tmp_path: Path, capsys: pytest.CaptureFixture[str],
-    ):
+    ) -> None:
         src = """\
 import math
 import sys

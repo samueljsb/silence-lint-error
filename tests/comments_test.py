@@ -9,7 +9,7 @@ from silence_lint_error.comments import remove_code_from_comment
 from silence_lint_error.comments import remove_error_silencing_comments
 
 
-def test_add_error_silencing_comments():
+def test_add_error_silencing_comments() -> None:
     src = """\
 # a single-line statement on line 2
 foo = 'bar'
@@ -61,7 +61,7 @@ foo = 'bar'  # silence-me: ABC123,DEF456
 """
 
 
-def test_remove_error_silencing_comments():
+def test_remove_error_silencing_comments() -> None:
     src = """\
 foo = 'bar'  # silence-me: ABC123
 
@@ -99,7 +99,7 @@ foo = 'bar'  # silence-me: DEF456
 """
 
 
-def test_add_noqa_comments():
+def test_add_noqa_comments() -> None:
     src = """\
 # a single-line statement on line 2
 foo = 'bar'
@@ -146,7 +146,7 @@ hello there
         ('noqa: XYZ0  # noqa: UVW3', 'noqa: ABC1,XYZ0  # noqa: UVW3'),
     ),
 )
-def test_add_code_to_comment(original, expected):
+def test_add_code_to_comment(original: str, expected: str) -> None:
     assert add_code_to_comment(original, 'noqa', 'ABC1') == expected
 
 
@@ -165,5 +165,5 @@ def test_add_code_to_comment(original, expected):
         ('# noqa: XYZ0,ABC1  # noqa: UVW3', '# noqa: XYZ0  # noqa: UVW3'),
     ),
 )
-def test_remove_code_from_comment(original, expected):
+def test_remove_code_from_comment(original: str, expected: str) -> None:
     assert remove_code_from_comment(original, 'noqa', 'ABC1') == expected
