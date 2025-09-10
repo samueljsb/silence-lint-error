@@ -24,19 +24,6 @@ dependencies = [  # pragma: alphabetize[case-insensitive]
   "tokenize-rt",
 ]
 
-[project.optional-dependencies]
-dev = [  # pragma: alphabetize[case-insensitive]
-  "covdefaults",
-  "coverage",
-  "fixit",
-  "flake8",
-  "mypy",
-  "pytest",
-  "pytest-subprocess",
-  "ruff",
-  "semgrep",
-]
-
 [project.scripts]
 silence-lint-error = "silence_lint_error.cli.silence_lint_error:main"
 fix-silenced-error = "silence_lint_error.cli.fix_silenced_error:main"
@@ -56,6 +43,28 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools]
 # This is the default but we include it to be explicit.
 include-package-data = true
+
+
+# Development
+# -----------
+
+[dependency-groups]
+test = [
+  "pytest",
+  "pytest-subprocess",
+  "coverage",
+  "covdefaults",
+  # compatible tools we run in tests
+  "fixit",
+  "flake8",
+  "mypy",
+  "ruff",
+  "semgrep",
+]
+mypy = [
+  "mypy",
+  {include-group = "test"},
+]
 
 
 # Mypy
@@ -99,6 +108,7 @@ addopts = [
 ]
 filterwarnings = [
   "error::DeprecationWarning",
+  "error::SyntaxWarning",
   "error::pytest.PytestCollectionWarning",
 ]
 xfail_strict = true
