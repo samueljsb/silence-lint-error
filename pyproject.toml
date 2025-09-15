@@ -87,11 +87,17 @@ enable_error_code = [  # pragma: alphabetize
   "truthy-iterable",
 ]
 strict = true
-ignore_missing_imports = true
 no_implicit_optional = true
 strict_equality = true
 warn_unreachable = true
 warn_no_return = true
+
+# Some dependencies do not provide type annotations.
+[[tool.mypy.overrides]]
+module = [
+  "tokenize_rt",
+]
+ignore_missing_imports = true
 
 
 # Pytest
