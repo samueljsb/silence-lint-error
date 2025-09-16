@@ -40,10 +40,6 @@ Changelog = "https://github.com/samueljsb/silence-lint-error/blob/main/CHANGELOG
 requires = ["setuptools>=77.0.3"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools]
-# This is the default but we include it to be explicit.
-include-package-data = true
-
 
 # Development
 # -----------
