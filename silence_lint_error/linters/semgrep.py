@@ -6,6 +6,7 @@ from collections import defaultdict
 from collections.abc import Sequence
 from typing import TYPE_CHECKING
 
+from silence_lint_error import comments
 from silence_lint_error.silencing import ErrorRunningTool
 from silence_lint_error.silencing import Violation
 
@@ -60,11 +61,17 @@ class Semgrep:
 
         lines = src.splitlines(keepends=True)
 
-        new_lines = []
+        new_lines: list[str] = []
         for current_lineno, line in enumerate(lines, start=1):
             if current_lineno in linenos_to_silence:
-                leading_ws = line.removesuffix(line.lstrip())
-                new_lines.append(f'{leading_ws}# nosemgrep: {rule_name}\n')
+                previous_line = new_lines[-1]
+                if '# nosemgrep' in previous_line:
+                    new_lines[-1] = comments.add_code_to_comment(
+                        previous_line, 'nosemgrep', code=rule_name, sep=' ',
+                    )
+                else:
+                    leading_ws = line.removesuffix(line.lstrip())
+                    new_lines.append(f'{leading_ws}# nosemgrep: {rule_name}\n')
             new_lines.append(line)
 
         return ''.join(new_lines)

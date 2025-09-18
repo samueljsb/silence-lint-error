@@ -58,7 +58,9 @@ def add_noqa_comments(src: str, lines: set[int], error_code: str) -> str:
     return add_error_silencing_comments(src, lines, 'noqa', error_code)
 
 
-def add_code_to_comment(comment: str, comment_type: str, code: str) -> str:
+def add_code_to_comment(
+        comment: str, comment_type: str, code: str, sep: str = '',
+) -> str:
     """Add to a comment to make it a error-silencing comment.
 
     If the comment already includes an error silencing section of the same type, this
@@ -66,7 +68,7 @@ def add_code_to_comment(comment: str, comment_type: str, code: str) -> str:
     """
     if f'{comment_type}: ' in comment:
         return comment.replace(
-            f'{comment_type}: ', f'{comment_type}: {code},', 1,
+            f'{comment_type}: ', f'{comment_type}: {code},{sep}', 1,
         )
     else:
         return comment + f'  # {comment_type}: {code}'
