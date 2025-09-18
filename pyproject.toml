@@ -1,6 +1,6 @@
 [project]
 name = "silence_lint_error"
-version = "1.6.0"
+version = "1.7.0"
 authors = [
     {name = "Samuel Searles-Bryant", email = "sam@samueljsb.co.uk"},
 ]
