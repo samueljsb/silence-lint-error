@@ -16,7 +16,7 @@ repos:
     rev: v3.21.2
     hooks:
     -   id: pyupgrade
-        args: [--py310-plus]
+        args: [--py311-plus]
 -   repo: https://github.com/asottile/reorder-python-imports
     rev: v3.17.0
     hooks:
